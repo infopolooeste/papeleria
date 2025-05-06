@@ -40,7 +40,7 @@
       </div>
 
       <div class="articulos" id="articulos">
-        <!-- Los artículos se insertarán aquí con JS -->
+        <!-- Artículos se insertan por JS -->
       </div>
 
       <div class="campo boton">
@@ -108,9 +108,10 @@
       contenedor.appendChild(fila);
     });
 
-    // Establecer la fecha actual
+    // Fecha actual
     document.getElementById("fecha").value = new Date().toLocaleDateString("es-AR");
 
+    // Enviar datos al formulario de Google
     document.getElementById("pedidoForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
@@ -118,7 +119,7 @@
       const sector = document.getElementById("sector").value;
       const departamento = document.getElementById("departamento").value;
 
-      const items = [];
+      const pedidos = [];
 
       document.querySelectorAll(".item-checkbox").forEach((checkbox, i) => {
         if (checkbox.checked) {
@@ -126,7 +127,10 @@
           const cantidad = fila.querySelector(".cantidad").value;
           const observaciones = fila.querySelector(".observaciones").value;
 
-          items.push({
+          pedidos.push({
+            fecha,
+            sector,
+            departamento,
             articulo: articulos[i],
             cantidad,
             observaciones
@@ -134,29 +138,31 @@
         }
       });
 
-      fetch("https://script.google.com/macros/s/AKfycbxFY9hro2eXkcU3c_hwQpjmCOTCNFcXnfgpg63gNoHKyYnf8HswlzS5Xef7seo3SmDG/exec", {
-        method: "POST",
-        body: JSON.stringify({
-          fecha,
-          sector,
-          departamento,
-          articulo,
-          cantidad,
-          observaciones.
-        }),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then((res) => res.json())
-      .then((data) => {
+      if (pedidos.length === 0) {
+        document.getElementById("mensaje").innerText = "⚠️ Selecciona al menos un artículo.";
+        return;
+      }
+
+      Promise.all(pedidos.map(pedido =>
+        fetch("https://script.google.com/macros/s/AKfycbxFY9hro2eXkcU3c_hwQpjmCOTCNFcXnfgpg63gNoHKyYnf8HswlzS5Xef7seo3SmDG/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(pedido)
+        })
+      ))
+      .then(() => {
         document.getElementById("mensaje").innerText = "✅ Pedido enviado correctamente.";
+        document.getElementById("pedidoForm").reset();
       })
       .catch((err) => {
         document.getElementById("mensaje").innerText = "❌ Error al enviar el pedido.";
         console.error(err);
       });
     });
+  </script>
+</body>
+</html>
+
   </script>
 </body>
 </html>
