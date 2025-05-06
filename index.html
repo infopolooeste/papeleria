@@ -1,135 +1,161 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Formulario Papelería</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedido de Papelería</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
+  <div class="form-container">
     <h1>Pedido de Papelería</h1>
-
-    <form id="formulario">
-      <div class="top-fields">
-        <div class="form-field">
-          <label>Fecha:</label>
-          <input type="date" id="fecha" name="fecha" readonly>
-        </div>
-
-        <div class="form-field">
-          <label>Sector:</label>
-          <select id="sector" name="sector" required>
-            <option value="BRIASOL">BRIASOL</option>
-            <option value="DORALINE">DORALINE</option>
-          </select>
-        </div>
-
-        <div class="form-field">
-          <label>Departamento:</label>
-          <select id="departamento" name="departamento" required>
-            <option>VEHICULOS</option>
-            <option>MERCADO LIBRE</option>
-            <option>MANTENIMIENTO</option>
-            <option>DEPARTAMENTO INFORMATICO</option>
-            <option>INTEGRA</option>
-            <option>MEZZANINE</option>
-            <option>ADUANA</option>
-            <option>ADMINISTRACION</option>
-            <option>RRHH</option>
-          </select>
-        </div>
+    
+    <form id="pedidoForm">
+      <div class="campo">
+        <label>Fecha:</label>
+        <input type="text" id="fecha" readonly />
       </div>
 
-      <div id="lista-articulos"></div>
+      <div class="campo">
+        <label for="sector">Sector:</label>
+        <select id="sector" name="sector">
+          <option value="BRIASOL">BRIASOL</option>
+          <option value="DORALINE">DORALINE</option>
+        </select>
+      </div>
 
-      <div class="submit-container">
+      <div class="campo">
+        <label for="departamento">Departamento:</label>
+        <select id="departamento" name="departamento">
+          <option value="VEHICULOS">VEHICULOS</option>
+          <option value="MERCADO LIBRE">MERCADO LIBRE</option>
+          <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+          <option value="DEPARTAMENTO INFORMATICO">DEPARTAMENTO INFORMATICO</option>
+          <option value="INTEGRA">INTEGRA</option>
+          <option value="MEZZANINE">MEZZANINE</option>
+          <option value="ADUANA">ADUANA</option>
+          <option value="ADMINISTRACION">ADMINISTRACION</option>
+          <option value="RRHH">RRHH</option>
+        </select>
+      </div>
+
+      <div class="articulos" id="articulos">
+        <!-- Los artículos se insertarán aquí con JS -->
+      </div>
+
+      <div class="campo boton">
         <button type="submit">Enviar pedido</button>
       </div>
     </form>
+
+    <div id="mensaje" class="mensaje"></div>
   </div>
 
   <script>
-    document.getElementById('fecha').valueAsDate = new Date();
-
     const articulos = [
-      "Bibliorato angosto", "Bibliorato ancho", "Bolígrafo BIC (caja) azul",
-      "Bolígrafo BIC (caja) negro", "Bolígrafo BIC (caja) rojo", "Calculadora",
-      "Carpeta con elástico", "Cinta adhesiva ancha 48 mm", "Clips 50 mm",
-      "Depósito de clips", "Engrampadora", "Folios", "Grampas 26/6",
-      "Hojas A4 (resma)", "Lapicera Pilot BP1 color azul",
-      "Lapicera Pilot BP1 color negro", "Lapicera Pilot BP1 color rojo",
-      "Libreta con espiral tamaño 108mm x 169mm", "Marcador fluorescente amarillo",
-      "Marcador fluorescente fucsia", "Marcador fluorescente naranja",
-      "Marcador fluorescente verde", "Marcador permanente negro",
-      "Marcador permanente negro punta ancha", "Perforadora", "Portalápices",
-      "Portaminas", "Postick 76x76", "Regla", "Repuesto portaminas",
-      "Sacagrampas", "Sobres Manila tamaño A4", "Sobres Manila tamaño Oficio",
-      "Tijera grande"
+      "Bibliorato angosto", "Bibliorato ancho", "Bolígrafo BIC (caja) azul", 
+      "Bolígrafo BIC (caja) negro", "Bolígrafo BIC (caja) rojo", "Calculadora", 
+      "Carpeta con elástico", "Cinta adhesiva ancha 48 mm", "Clips 50 mm", 
+      "Depósito de clips", "Engrampadora", "Folios", "Grampas 26/6", 
+      "Hojas A4 (resma)", "Lapicera Pilot BP1 color azul", "Lapicera Pilot BP1 color negro", 
+      "Lapicera Pilot BP1 color rojo", "Libreta con espiral tamaño 108mm x 169mm", 
+      "Marcador fluorescente amarillo", "Marcador fluorescente fucsia", 
+      "Marcador fluorescente naranja", "Marcador fluorescente verde", 
+      "Marcador permanente negro", "Marcador permanente negro punta ancha", 
+      "Perforadora", "Portalápices", "Portaminas", "Postick 76x76", 
+      "Regla", "Repuesto portaminas", "Sacagrampas", "Sobres Manila tamaño A4", 
+      "Sobres Manila tamaño Oficio", "Tijera grande"
     ];
 
-    const contenedor = document.getElementById('lista-articulos');
+    const contenedor = document.getElementById("articulos");
 
-    articulos.forEach((articulo) => {
-      const div = document.createElement('div');
-      div.classList.add('item-row');
-      div.innerHTML = `
-        <label class="descripcion">
-          <input type="checkbox" class="item-checkbox" value="${articulo}"> ${articulo}
-        </label>
-        <input type="text" class="cantidad" placeholder="Cant.">
-        <input type="text" class="observaciones" placeholder="Observaciones">
-      `;
-      contenedor.appendChild(div);
-    });
+    articulos.forEach((nombre, index) => {
+      const fila = document.createElement("div");
+      fila.className = "fila-articulo";
 
-    document.querySelectorAll('.item-checkbox').forEach((cb) => {
-      cb.addEventListener('change', () => {
-        const row = cb.closest('.item-row');
-        const cantidad = row.querySelector('.cantidad');
-        const obs = row.querySelector('.observaciones');
-        const visible = cb.checked ? 'inline-block' : 'none';
-        cantidad.style.display = visible;
-        obs.style.display = visible;
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = `item-${index}`;
+      checkbox.className = "item-checkbox";
+
+      const label = document.createElement("label");
+      label.htmlFor = `item-${index}`;
+      label.textContent = nombre;
+
+      const cantidad = document.createElement("input");
+      cantidad.type = "text";
+      cantidad.placeholder = "Cant.";
+      cantidad.className = "cantidad";
+      cantidad.style.display = "none";
+
+      const observaciones = document.createElement("input");
+      observaciones.type = "text";
+      observaciones.placeholder = "Observaciones";
+      observaciones.className = "observaciones";
+      observaciones.style.display = "none";
+
+      checkbox.addEventListener("change", () => {
+        const visible = checkbox.checked;
+        cantidad.style.display = visible ? "inline-block" : "none";
+        observaciones.style.display = visible ? "inline-block" : "none";
       });
+
+      fila.appendChild(checkbox);
+      fila.appendChild(label);
+      fila.appendChild(cantidad);
+      fila.appendChild(observaciones);
+
+      contenedor.appendChild(fila);
     });
 
-    document.getElementById('formulario').addEventListener('submit', function (e) {
+    // Establecer la fecha actual
+    document.getElementById("fecha").value = new Date().toLocaleDateString("es-AR");
+
+    document.getElementById("pedidoForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const fecha = document.getElementById('fecha').value;
-      const sector = document.getElementById('sector').value;
-      const departamento = document.getElementById('departamento').value;
+      const fecha = document.getElementById("fecha").value;
+      const sector = document.getElementById("sector").value;
+      const departamento = document.getElementById("departamento").value;
 
       const items = [];
 
-      document.querySelectorAll('.item-checkbox:checked').forEach((checkbox) => {
-        const row = checkbox.closest('.item-row');
-        const cantidad = row.querySelector('.cantidad').value;
-        const observaciones = row.querySelector('.observaciones').value;
+      document.querySelectorAll(".item-checkbox").forEach((checkbox, i) => {
+        if (checkbox.checked) {
+          const fila = checkbox.parentElement;
+          const cantidad = fila.querySelector(".cantidad").value;
+          const observaciones = fila.querySelector(".observaciones").value;
 
-        items.push({
-          articulo: checkbox.value,
-          cantidad: cantidad,
-          observaciones: observaciones
-        });
+          items.push({
+            articulo: articulos[i],
+            cantidad,
+            observaciones
+          });
+        }
       });
 
-      fetch('https://script.google.com/macros/s/AKfycbxFY9hro2eXkcU3c_hwQpjmCOTCNFcXnfgpg63gNoHKyYnf8HswlzS5Xef7seo3SmDG/exec', {
-        method: 'POST',
-        body: JSON.stringify({ fecha, sector, departamento, items }),
+      fetch("https://script.google.com/macros/s/AKfycbxFY9hro2eXkcU3c_hwQpjmCOTCNFcXnfgpg63gNoHKyYnf8HswlzS5Xef7seo3SmDG/exec", {
+        method: "POST",
+        body: JSON.stringify({
+          fecha,
+          sector,
+          departamento,
+          items
+        }),
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         }
-      }).then(res => {
-        alert("Pedido enviado correctamente.");
-        document.getElementById('formulario').reset();
-        document.querySelectorAll('.cantidad, .observaciones').forEach(e => e.style.display = 'none');
-      }).catch(err => {
-        alert("Error al enviar el pedido.");
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("mensaje").innerText = "✅ Pedido enviado correctamente.";
+      })
+      .catch((err) => {
+        document.getElementById("mensaje").innerText = "❌ Error al enviar el pedido.";
         console.error(err);
       });
     });
   </script>
 </body>
 </html>
+
