@@ -40,7 +40,7 @@
       </div>
 
       <div class="articulos" id="articulos">
-        <!-- Artículos se insertan por JS -->
+        <!-- Los artículos se insertarán aquí con JS -->
       </div>
 
       <div class="campo boton">
@@ -108,10 +108,9 @@
       contenedor.appendChild(fila);
     });
 
-    // Fecha actual
+    // Establecer la fecha actual
     document.getElementById("fecha").value = new Date().toLocaleDateString("es-AR");
 
-    // Enviar datos al formulario de Google
     document.getElementById("pedidoForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
@@ -119,7 +118,7 @@
       const sector = document.getElementById("sector").value;
       const departamento = document.getElementById("departamento").value;
 
-      const pedidos = [];
+      const items = [];
 
       document.querySelectorAll(".item-checkbox").forEach((checkbox, i) => {
         if (checkbox.checked) {
@@ -127,32 +126,39 @@
           const cantidad = fila.querySelector(".cantidad").value;
           const observaciones = fila.querySelector(".observaciones").value;
 
-          pedidos.push({
-            fecha,
-            sector,
-            departamento,
-            articulo,
+          items.push({
+            articulo: articulos[i],
             cantidad,
             observaciones
           });
         }
       });
 
-      if (pedidos.length === 0) {
+      if (items.length === 0) {
         document.getElementById("mensaje").innerText = "⚠️ Selecciona al menos un artículo.";
         return;
       }
 
-      Promise.all(pedidos.map(pedido =>
-        fetch("https://script.google.com/macros/s/AKfycbxFY9hro2eXkcU3c_hwQpjmCOTCNFcXnfgpg63gNoHKyYnf8HswlzS5Xef7seo3SmDG/exec", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(pedido)
-        })
-      ))
-      .then(() => {
+      fetch("https://script.google.com/macros/s/AKfycbwMi94JvylYy97fJMlwJRXkXzyudidQYZwT7EkKQLt-yzacVHTODYpQYYDE_r0mOha0/exec", {
+        method: "POST",
+        body: JSON.stringify({
+          fecha,
+          sector,
+          departamento,
+          items
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {
         document.getElementById("mensaje").innerText = "✅ Pedido enviado correctamente.";
         document.getElementById("pedidoForm").reset();
+        // Ocultar campos de cantidad y observaciones
+        document.querySelectorAll(".cantidad, .observaciones").forEach((el) => {
+          el.style.display = "none";
+        });
       })
       .catch((err) => {
         document.getElementById("mensaje").innerText = "❌ Error al enviar el pedido.";
@@ -162,8 +168,3 @@
   </script>
 </body>
 </html>
-
-  </script>
-</body>
-</html>
-
