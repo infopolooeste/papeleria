@@ -4,29 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pedido de Papelería</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+    .form-container { background: white; padding: 20px; border-radius: 10px; max-width: 800px; margin: auto; }
+    .fila-articulo { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
+    .cantidad, .observaciones { width: 80px; }
+    .mensaje { margin-top: 20px; font-weight: bold; }
+  </style>
 </head>
 <body>
   <div class="form-container">
     <h1>Pedido de Papelería</h1>
-    
     <form id="pedidoForm">
-      <div class="campo">
+      <div>
         <label>Fecha:</label>
-        <input type="text" id="fecha" readonly />
+        <input type="text" id="fecha" name="fecha" readonly>
       </div>
-
-      <div class="campo">
-        <label for="sector">Sector:</label>
-        <select id="sector" name="sector">
+      <div>
+        <label>Sector:</label>
+        <select name="sector" id="sector">
           <option value="BRIASOL">BRIASOL</option>
           <option value="DORALINE">DORALINE</option>
         </select>
       </div>
-
-      <div class="campo">
-        <label for="departamento">Departamento:</label>
-        <select id="departamento" name="departamento">
+      <div>
+        <label>Departamento:</label>
+        <select name="departamento" id="departamento">
           <option value="VEHICULOS">VEHICULOS</option>
           <option value="MERCADO LIBRE">MERCADO LIBRE</option>
           <option value="MANTENIMIENTO">MANTENIMIENTO</option>
@@ -39,32 +42,17 @@
         </select>
       </div>
 
-      <div class="articulos" id="articulos">
-        <!-- Los artículos se insertarán aquí con JS -->
-      </div>
+      <div id="articulos"></div>
 
-      <div class="campo boton">
-        <button type="submit">Enviar pedido</button>
-      </div>
+      <button type="submit">Enviar pedido</button>
     </form>
-
     <div id="mensaje" class="mensaje"></div>
   </div>
 
   <script>
     const articulos = [
-      "Bibliorato angosto", "Bibliorato ancho", "Bolígrafo BIC (caja) azul", 
-      "Bolígrafo BIC (caja) negro", "Bolígrafo BIC (caja) rojo", "Calculadora", 
-      "Carpeta con elástico", "Cinta adhesiva ancha 48 mm", "Clips 50 mm", 
-      "Depósito de clips", "Engrampadora", "Folios", "Grampas 26/6", 
-      "Hojas A4 (resma)", "Lapicera Pilot BP1 color azul", "Lapicera Pilot BP1 color negro", 
-      "Lapicera Pilot BP1 color rojo", "Libreta con espiral tamaño 108mm x 169mm", 
-      "Marcador fluorescente amarillo", "Marcador fluorescente fucsia", 
-      "Marcador fluorescente naranja", "Marcador fluorescente verde", 
-      "Marcador permanente negro", "Marcador permanente negro punta ancha", 
-      "Perforadora", "Portalápices", "Portaminas", "Postick 76x76", 
-      "Regla", "Repuesto portaminas", "Sacagrampas", "Sobres Manila tamaño A4", 
-      "Sobres Manila tamaño Oficio"
+      "Bibliorato angosto", "Bibliorato ancho", "Bolígrafo BIC azul", "Hojas A4 (resma)", "Lapicera Pilot BP1 azul"
+      // Puedes agregar más artículos aquí
     ];
 
     const contenedor = document.getElementById("articulos");
@@ -76,94 +64,60 @@
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.id = `item-${index}`;
-      checkbox.className = "item-checkbox";
+      checkbox.name = `item-${index}`;
+      checkbox.value = nombre;
 
       const label = document.createElement("label");
-      label.htmlFor = `item-${index}`;
-      label.textContent = nombre;
+      label.htmlFor = checkbox.id;
+      label.innerText = nombre;
 
       const cantidad = document.createElement("input");
-      cantidad.type = "text";
+      cantidad.type = "number";
       cantidad.placeholder = "Cant.";
+      cantidad.name = `cantidad-${index}`;
       cantidad.className = "cantidad";
       cantidad.style.display = "none";
 
       const observaciones = document.createElement("input");
       observaciones.type = "text";
       observaciones.placeholder = "Observaciones";
+      observaciones.name = `obs-${index}`;
       observaciones.className = "observaciones";
       observaciones.style.display = "none";
 
       checkbox.addEventListener("change", () => {
-        const visible = checkbox.checked;
-        cantidad.style.display = visible ? "inline-block" : "none";
-        observaciones.style.display = visible ? "inline-block" : "none";
+        const mostrar = checkbox.checked;
+        cantidad.style.display = mostrar ? "inline-block" : "none";
+        observaciones.style.display = mostrar ? "inline-block" : "none";
       });
 
       fila.appendChild(checkbox);
       fila.appendChild(label);
       fila.appendChild(cantidad);
       fila.appendChild(observaciones);
-
       contenedor.appendChild(fila);
     });
 
-    // Establecer la fecha actual
+    // Fecha actual
     document.getElementById("fecha").value = new Date().toLocaleDateString("es-AR");
 
-    document.getElementById("pedidoForm").addEventListener("submit", function (e) {
+    document.getElementById("pedidoForm").addEventListener("submit", async function(e) {
       e.preventDefault();
+      const form = new FormData(this);
 
-      const fecha = document.getElementById("fecha").value;
-      const sector = document.getElementById("sector").value;
-      const departamento = document.getElementById("departamento").value;
-
-      const items = [];
-
-      document.querySelectorAll(".item-checkbox").forEach((checkbox, i) => {
-        if (checkbox.checked) {
-          const fila = checkbox.parentElement;
-          const cantidad = fila.querySelector(".cantidad").value;
-          const observaciones = fila.querySelector(".observaciones").value;
-
-          items.push({
-            articulo: articulos[i],
-            cantidad,
-            observaciones
-          });
-        }
-      });
-
-      if (items.length === 0) {
-        document.getElementById("mensaje").innerText = "⚠️ Selecciona al menos un artículo.";
-        return;
-      }
-
-      fetch("https://script.google.com/macros/s/AKfycbwMi94JvylYy97fJMlwJRXkXzyudidQYZwT7EkKQLt-yzacVHTODYpQYYDE_r0mOha0/exec", {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbwMi94JvylYy97fJMlwJRXkXzyudidQYZwT7EkKQLt-yzacVHTODYpQYYDE_r0mOha0/exec", {
         method: "POST",
-        body: JSON.stringify({
-          fecha,
-          sector,
-          departamento,
-          items
-        }),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        document.getElementById("mensaje").innerText = "✅ Pedido enviado correctamente.";
-        document.getElementById("pedidoForm").reset();
-        // Ocultar campos de cantidad y observaciones
-        document.querySelectorAll(".cantidad, .observaciones").forEach((el) => {
-          el.style.display = "none";
-        });
-      })
-      .catch((err) => {
-        document.getElementById("mensaje").innerText = "❌ Error al enviar el pedido.";
-        console.error(err);
+        body: form,
       });
+
+      const mensaje = document.getElementById("mensaje");
+      if (response.ok) {
+        mensaje.innerText = "✅ Pedido enviado correctamente.";
+        this.reset();
+        document.querySelectorAll(".cantidad, .observaciones").forEach(el => el.style.display = "none");
+      } else {
+        mensaje.innerText = "❌ Error al enviar el pedido.";
+      }
     });
   </script>
 </body>
