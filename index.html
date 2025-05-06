@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario Papelería</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Pedido de Papelería</h1>
+
+    <form id="formulario">
+      <div class="top-fields">
+        <div class="form-field">
+          <label>Fecha:</label>
+          <input type="date" id="fecha" name="fecha" readonly>
+        </div>
+
+        <div class="form-field">
+          <label>Sector:</label>
+          <select id="sector" name="sector" required>
+            <option value="BRIASOL">BRIASOL</option>
+            <option value="DORALINE">DORALINE</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Departamento:</label>
+          <select id="departamento" name="departamento" required>
+            <option>VEHICULOS</option>
+            <option>MERCADO LIBRE</option>
+            <option>MANTENIMIENTO</option>
+            <option>DEPARTAMENTO INFORMATICO</option>
+            <option>INTEGRA</option>
+            <option>MEZZANINE</option>
+            <option>ADUANA</option>
+            <option>ADMINISTRACION</option>
+            <option>RRHH</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="lista-articulos"></div>
+
+      <div class="submit-container">
+        <button type="submit">Enviar pedido</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('fecha').valueAsDate = new Date();
+
+    const articulos = [
+      "Bibliorato angosto", "Bibliorato ancho", "Bolígrafo BIC (caja) azul",
+      "Bolígrafo BIC (caja) negro", "Bolígrafo BIC (caja) rojo", "Calculadora",
+      "Carpeta con elástico", "Cinta adhesiva ancha 48 mm", "Clips 50 mm",
+      "Depósito de clips", "Engrampadora", "Folios", "Grampas 26/6",
+      "Hojas A4 (resma)", "Lapicera Pilot BP1 color azul",
+      "Lapicera Pilot BP1 color negro", "Lapicera Pilot BP1 color rojo",
+      "Libreta con espiral tamaño 108mm x 169mm", "Marcador fluorescente amarillo",
+      "Marcador fluorescente fucsia", "Marcador fluorescente naranja",
+      "Marcador fluorescente verde", "Marcador permanente negro",
+      "Marcador permanente negro punta ancha", "Perforadora", "Portalápices",
+      "Portaminas", "Postick 76x76", "Regla", "Repuesto portaminas",
+      "Sacagrampas", "Sobres Manila tamaño A4", "Sobres Manila tamaño Oficio",
+      "Tijera grande"
+    ];
+
+    const contenedor = document.getElementById('lista-articulos');
+
+    articulos.forEach((articulo) => {
+      const div = document.createElement('div');
+      div.classList.add('item-row');
+      div.innerHTML = `
+        <label class="descripcion">
+          <input type="checkbox" class="item-checkbox" value="${articulo}"> ${articulo}
+        </label>
+        <input type="text" class="cantidad" placeholder="Cant.">
+        <input type="text" class="observaciones" placeholder="Observaciones">
+      `;
+      contenedor.appendChild(div);
+    });
+
+    document.querySelectorAll('.item-checkbox').forEach((cb) => {
+      cb.addEventListener('change', () => {
+        const row = cb.closest('.item-row');
+        const cantidad = row.querySelector('.cantidad');
+        const obs = row.querySelector('.observaciones');
+        const visible = cb.checked ? 'inline-block' : 'none';
+        cantidad.style.display = visible;
+        obs.style.display = visible;
+      });
+    });
+
+    document.getElementById('formulario').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const fecha = document.getElementById('fecha').value;
+      const sector = document.getElementById('sector').value;
+      const departamento = document.getElementById('departamento').value;
+
+      const items = [];
+
+      document.querySelectorAll('.item-checkbox:checked').forEach((checkbox) => {
+        const row = checkbox.closest('.item-row');
+        const cantidad = row.querySelector('.cantidad').value;
+        const observaciones = row.querySelector('.observaciones').value;
+
+        items.push({
+          articulo: checkbox.value,
+          cantidad: cantidad,
+          observaciones: observaciones
+        });
+      });
+
+      fetch('https://script.google.com/macros/library/d/1t34IrQqvuTO1yxOCl2fWqrGOdWAj4OxAdf1FnlwrOWoAykcEx1xfP8Ba/1', {
+        method: 'POST',
+        body: JSON.stringify({ fecha, sector, departamento, items }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => {
+        alert("Pedido enviado correctamente.");
+        document.getElementById('formulario').reset();
+        document.querySelectorAll('.cantidad, .observaciones').forEach(e => e.style.display = 'none');
+      }).catch(err => {
+        alert("Error al enviar el pedido.");
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>
