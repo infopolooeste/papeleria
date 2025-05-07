@@ -36,30 +36,21 @@
     </select>
 
     <div class="articulo">
-      <input type="checkbox" id="checkbox_tijera" onclick="mostrarCampos('tijera')">
-      <label for="checkbox_tijera">Tijera</label>
-      <div id="tijera" class="campos">
-        <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_tijera" placeholder="Observaciones">
-      </div>
+      <label>Tijera</label>
+      <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
+      <input type="text" name="obs_tijera" placeholder="Observaciones">
     </div>
 
     <div class="articulo">
-      <input type="checkbox" id="checkbox_papel" onclick="mostrarCampos('papel')">
-      <label for="checkbox_papel">Papel</label>
-      <div id="papel" class="campos">
-        <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_papel" placeholder="Observaciones">
-      </div>
+      <label>Papel</label>
+      <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
+      <input type="text" name="obs_papel" placeholder="Observaciones">
     </div>
 
     <div class="articulo">
-      <input type="checkbox" id="checkbox_lapiz" onclick="mostrarCampos('lapiz')">
-      <label for="checkbox_lapiz">Lápiz</label>
-      <div id="lapiz" class="campos">
-        <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_lapiz" placeholder="Observaciones">
-      </div>
+      <label>Lápiz</label>
+      <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
+      <input type="text" name="obs_lapiz" placeholder="Observaciones">
     </div>
 
     <button type="submit">Enviar Pedido</button>
@@ -68,18 +59,6 @@
   <script>
     // Establecer la fecha actual automáticamente
     document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
-
-    // Función para mostrar/ocultar los campos de cantidad y observaciones
-    function mostrarCampos(articulo) {
-      const div = document.getElementById(articulo);
-      const checkbox = document.getElementById('checkbox_' + articulo);
-
-      if (checkbox.checked) {
-        div.style.display = 'flex';  // Mostrar los campos
-      } else {
-        div.style.display = 'none';  // Ocultar los campos
-      }
-    }
 
     function enviarFormulario(event) {
       event.preventDefault();
