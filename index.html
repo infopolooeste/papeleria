@@ -31,7 +31,7 @@
       font-weight: bold;
     }
 
-    select, input[type="text"], input[type="number"], input[type="date"] {
+    select, input[type="text"], input[type="number"], input[type="date"], input[type="checkbox"] {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
@@ -41,22 +41,30 @@
 
     .articulo {
       margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
     }
 
     .articulo label {
       font-weight: normal;
       margin-top: 0;
+      margin-right: 15px;
     }
 
     .articulo input[type="number"],
     .articulo input[type="text"] {
-      width: 48%;
+      width: 40%;
       display: inline-block;
-      margin-right: 4%;
+      margin-right: 5%;
     }
 
     .articulo input[type="text"] {
       margin-right: 0;
+    }
+
+    .ocultar {
+      display: none;
     }
 
     button {
@@ -106,21 +114,30 @@
     </select>
 
     <div class="articulo">
-      <label>Tijera</label>
-      <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
-      <input type="text" name="obs_tijera" placeholder="Observaciones">
+      <input type="checkbox" id="checkbox_tijera" onclick="mostrarCampos('tijera')">
+      <label for="checkbox_tijera">Tijera</label>
+      <div id="tijera" class="ocultar">
+        <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
+        <input type="text" name="obs_tijera" placeholder="Observaciones">
+      </div>
     </div>
 
     <div class="articulo">
-      <label>Papel</label>
-      <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
-      <input type="text" name="obs_papel" placeholder="Observaciones">
+      <input type="checkbox" id="checkbox_papel" onclick="mostrarCampos('papel')">
+      <label for="checkbox_papel">Papel</label>
+      <div id="papel" class="ocultar">
+        <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
+        <input type="text" name="obs_papel" placeholder="Observaciones">
+      </div>
     </div>
 
     <div class="articulo">
-      <label>Lápiz</label>
-      <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
-      <input type="text" name="obs_lapiz" placeholder="Observaciones">
+      <input type="checkbox" id="checkbox_lapiz" onclick="mostrarCampos('lapiz')">
+      <label for="checkbox_lapiz">Lápiz</label>
+      <div id="lapiz" class="ocultar">
+        <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
+        <input type="text" name="obs_lapiz" placeholder="Observaciones">
+      </div>
     </div>
 
     <button type="submit">Enviar Pedido</button>
@@ -129,6 +146,18 @@
   <script>
     // Establecer la fecha actual automáticamente
     document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
+
+    // Función para mostrar/ocultar los campos de cantidad y observaciones
+    function mostrarCampos(articulo) {
+      const div = document.getElementById(articulo);
+      const checkbox = document.getElementById('checkbox_' + articulo);
+
+      if (checkbox.checked) {
+        div.classList.remove('ocultar');
+      } else {
+        div.classList.add('ocultar');
+      }
+    }
 
     function enviarFormulario(event) {
       event.preventDefault();
