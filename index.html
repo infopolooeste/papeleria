@@ -4,91 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pedido de Papelería</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      padding: 20px;
-    }
-
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 700px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    select, input[type="text"], input[type="number"], input[type="date"], input[type="checkbox"] {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .articulo {
-      display: flex;
-      align-items: center;
-      margin-top: 20px;
-    }
-
-    .articulo label {
-      font-weight: normal;
-      margin-right: 15px;
-      width: 200px;  /* Alineación del nombre del artículo */
-    }
-
-    .articulo input[type="checkbox"] {
-      margin-right: 15px;
-    }
-
-    .articulo div {
-      display: none;  /* Se ocultan los campos de cantidad y observaciones por defecto */
-      flex-grow: 1;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-
-    .articulo input[type="number"],
-    .articulo input[type="text"] {
-      width: 40%;
-      margin-right: 5%;
-    }
-
-    .articulo input[type="text"] {
-      margin-right: 0;
-    }
-
-    button {
-      display: block;
-      margin: 30px auto 0;
-      padding: 12px 25px;
-      font-size: 16px;
-      background-color: #5fbc2d;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #4da724;
-    }
-  </style>
+  <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 
@@ -122,7 +38,7 @@
     <div class="articulo">
       <input type="checkbox" id="checkbox_tijera" onclick="mostrarCampos('tijera')">
       <label for="checkbox_tijera">Tijera</label>
-      <div id="tijera">
+      <div id="tijera" class="campos">
         <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
         <input type="text" name="obs_tijera" placeholder="Observaciones">
       </div>
@@ -131,7 +47,7 @@
     <div class="articulo">
       <input type="checkbox" id="checkbox_papel" onclick="mostrarCampos('papel')">
       <label for="checkbox_papel">Papel</label>
-      <div id="papel">
+      <div id="papel" class="campos">
         <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
         <input type="text" name="obs_papel" placeholder="Observaciones">
       </div>
@@ -140,7 +56,7 @@
     <div class="articulo">
       <input type="checkbox" id="checkbox_lapiz" onclick="mostrarCampos('lapiz')">
       <label for="checkbox_lapiz">Lápiz</label>
-      <div id="lapiz">
+      <div id="lapiz" class="campos">
         <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
         <input type="text" name="obs_lapiz" placeholder="Observaciones">
       </div>
@@ -191,5 +107,3 @@
 </body>
 </html>
 
-</body>
-</html>
