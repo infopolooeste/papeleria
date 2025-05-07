@@ -33,38 +33,25 @@ select, input[type="text"], input[type="number"], input[type="date"], input[type
   border: 1px solid #ccc;
 }
 
-/* Estilos para los artículos (listados verticalmente) */
+/* Estilos para los artículos en forma de planilla */
 .articulo-container {
-  display: flex;
-  flex-direction: column; /* Artículos en columna */
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 3fr 1fr 2fr; /* Tres columnas: Artículo, Cantidad, Observaciones */
+  gap: 10px;
   margin-top: 20px;
 }
 
-.articulo {
-  display: flex;
-  justify-content: space-between; /* Artículo a la izquierda, campos a la derecha */
-  align-items: center;
-}
-
-.articulo label {
-  font-weight: normal;
-  margin-bottom: 10px;
+.articulo-container label {
   text-align: left;
-  width: 40%; /* Espacio para el nombre del artículo */
+  margin-bottom: 5px;
 }
 
-.articulo .campo {
-  display: flex;
-  flex-direction: column;
-  width: 55%; /* Espacio para los campos de cantidad y observaciones */
-}
-
-.articulo input[type="number"],
-.articulo input[type="text"] {
+.articulo-container input[type="number"],
+.articulo-container input[type="text"] {
   width: 100%;
-  margin-bottom: 10px;
-  text-align: left; /* Alineación de los campos de texto y número */
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 /* Estilos del botón */
