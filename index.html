@@ -39,16 +39,24 @@
       border: 1px solid #ccc;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
+    .articulo {
       margin-top: 20px;
     }
 
-    .grid label {
+    .articulo label {
       font-weight: normal;
       margin-top: 0;
+    }
+
+    .articulo input[type="number"],
+    .articulo input[type="text"] {
+      width: 48%;
+      display: inline-block;
+      margin-right: 4%;
+    }
+
+    .articulo input[type="text"] {
+      margin-right: 0;
     }
 
     button {
@@ -97,22 +105,22 @@
       <option value="Mantenimiento">Mantenimiento</option>
     </select>
 
-    <div class="grid">
-      <div>
-        <label>Tijera</label>
-        <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_tijera" placeholder="Observaciones">
-      </div>
-      <div>
-        <label>Papel</label>
-        <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_papel" placeholder="Observaciones">
-      </div>
-      <div>
-        <label>Lápiz</label>
-        <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_lapiz" placeholder="Observaciones">
-      </div>
+    <div class="articulo">
+      <label>Tijera</label>
+      <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
+      <input type="text" name="obs_tijera" placeholder="Observaciones">
+    </div>
+
+    <div class="articulo">
+      <label>Papel</label>
+      <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
+      <input type="text" name="obs_papel" placeholder="Observaciones">
+    </div>
+
+    <div class="articulo">
+      <label>Lápiz</label>
+      <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
+      <input type="text" name="obs_lapiz" placeholder="Observaciones">
     </div>
 
     <button type="submit">Enviar Pedido</button>
