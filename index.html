@@ -3,12 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pedido de Papelería</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Formulario de Pedido de Papelería</title>
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select, input[type="text"], input[type="number"], input[type="date"], input[type="checkbox"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    /* Estilos para los artículos en forma de planilla */
+    .articulo-container {
+      display: grid;
+      grid-template-columns: 3fr 1fr 2fr; /* Tres columnas: Artículo, Cantidad, Observaciones */
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .articulo-container label {
+      text-align: left;
+      margin-bottom: 5px;
+    }
+
+    .articulo-container input[type="number"],
+    .articulo-container input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    /* Estilos del botón */
+    button {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #5fbc2d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4da724;
+    }
+  </style>
 </head>
 <body>
 
-  <form id="papeleriaForm" onsubmit="enviarFormulario(event)">
+  <form id="papeleriaForm">
     <h2>Formulario de Pedido de Papelería</h2>
 
     <label for="fecha">Fecha</label>
@@ -35,22 +108,22 @@
       <option value="Mantenimiento">Mantenimiento</option>
     </select>
 
-    <div class="articulo">
-      <label>Tijera</label>
-      <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
-      <input type="text" name="obs_tijera" placeholder="Observaciones">
-    </div>
-
-    <div class="articulo">
-      <label>Papel</label>
-      <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
-      <input type="text" name="obs_papel" placeholder="Observaciones">
-    </div>
-
-    <div class="articulo">
-      <label>Lápiz</label>
-      <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
-      <input type="text" name="obs_lapiz" placeholder="Observaciones">
+    <div class="articulo-container">
+      <div>
+        <label for="articulo_tijera">Tijera</label>
+        <input type="number" id="cantidad_tijera" name="cantidad_tijera" placeholder="Cantidad">
+        <input type="text" id="obs_tijera" name="obs_tijera" placeholder="Observaciones">
+      </div>
+      <div>
+        <label for="articulo_papel">Papel</label>
+        <input type="number" id="cantidad_papel" name="cantidad_papel" placeholder="Cantidad">
+        <input type="text" id="obs_papel" name="obs_papel" placeholder="Observaciones">
+      </div>
+      <div>
+        <label for="articulo_lapiz">Lápiz</label>
+        <input type="number" id="cantidad_lapiz" name="cantidad_lapiz" placeholder="Cantidad">
+        <input type="text" id="obs_lapiz" name="obs_lapiz" placeholder="Observaciones">
+      </div>
     </div>
 
     <button type="submit">Enviar Pedido</button>
@@ -60,27 +133,10 @@
     // Establecer la fecha actual automáticamente
     document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
 
-    function enviarFormulario(event) {
+    document.getElementById('papeleriaForm').addEventListener('submit', function(event) {
       event.preventDefault();
-
-      const form = document.getElementById('papeleriaForm');
-      const formData = new FormData(form);
-
-      fetch('https://script.google.com/macros/s/AKfycbxDpeVxuFXQpcfpPiz320bhxjdqxfEOkT-J5bXFij7FvLp8R6FgzBL6-6QhOi8uAqgN/exec', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.text())
-      .then(result => {
-        alert('Pedido enviado correctamente.');
-        form.reset();
-        document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
-      })
-      .catch(error => {
-        console.error('Error al enviar:', error);
-        alert('Error al enviar el pedido. Intente nuevamente.');
-      });
-    }
+      alert('Pedido enviado correctamente');
+    });
   </script>
 
 </body>
