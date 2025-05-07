@@ -1,8 +1,8 @@
+/* Estilos generales */
 body {
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
   padding: 20px;
-  position: relative; /* Asegura que los elementos posicionados dentro estén relacionados con el cuerpo */
 }
 
 form {
@@ -12,7 +12,6 @@ form {
   max-width: 700px;
   margin: auto;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  position: relative; /* Asegura que el logo quede dentro del formulario */
 }
 
 h2 {
@@ -26,7 +25,7 @@ label {
   font-weight: bold;
 }
 
-select, input[type="text"], input[type="number"], input[type="date"] {
+select, input[type="text"], input[type="number"], input[type="date"], input[type="checkbox"] {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
@@ -34,18 +33,29 @@ select, input[type="text"], input[type="number"], input[type="date"] {
   border: 1px solid #ccc;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+/* Estilos de los artículos */
+.articulo {
+  display: flex;
+  justify-content: center;
   margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
 }
 
-.grid label {
+.articulo label {
   font-weight: normal;
-  margin-top: 0;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
+.articulo input[type="number"],
+.articulo input[type="text"] {
+  width: 80%;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Estilos del botón */
 button {
   display: block;
   margin: 30px auto 0;
@@ -60,13 +70,4 @@ button {
 
 button:hover {
   background-color: #4da724;
-}
-
-/* Estilo para el logo */
-#logo {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 30%; /* Achica el logo un 70% */
-  height: auto;
 }
