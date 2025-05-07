@@ -1,8 +1,8 @@
-/* Estilos generales */
 body {
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
   padding: 20px;
+  position: relative; /* Asegura que los elementos posicionados dentro estén relacionados con el cuerpo */
 }
 
 form {
@@ -25,7 +25,7 @@ label {
   font-weight: bold;
 }
 
-select, input[type="text"], input[type="number"], input[type="date"], input[type="checkbox"] {
+select, input[type="text"], input[type="number"], input[type="date"] {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
@@ -33,33 +33,18 @@ select, input[type="text"], input[type="number"], input[type="date"], input[type
   border: 1px solid #ccc;
 }
 
-/* Contenedor de los artículos */
-.articulos-container {
-  display: block;
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
   margin-top: 20px;
 }
 
-/* Cada artículo en la lista */
-.articulo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
+.grid label {
+  font-weight: normal;
+  margin-top: 0;
 }
 
-.articulo label {
-  width: 60%;  /* Ocupa el 60% de la línea */
-  text-align: left;  /* Alineado a la izquierda */
-}
-
-.articulo input[type="number"],
-.articulo input[type="text"] {
-  width: 30%;  /* Los campos de cantidad y observaciones ocupan el 30% de la línea */
-  margin-left: 10px;
-  text-align: center;
-}
-
-/* Estilos del botón */
 button {
   display: block;
   margin: 30px auto 0;
@@ -74,4 +59,13 @@ button {
 
 button:hover {
   background-color: #4da724;
+}
+
+/* Estilo para el logo */
+#logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 100px; /* Ajusta el tamaño del logo si es necesario */
+  height: auto;
 }
