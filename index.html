@@ -45,7 +45,7 @@
   <script>
     document.getElementById('fecha').value = new Date().toLocaleDateString('es-AR');
 
-    const articulos = ["Bibliorato angosto", "Folios", "Grampas", "Tijera grande"];
+    const articulos = ["Bibliorato angosto", "Bolígrafo azul", "Folios", "Grampas", "Tijera grande"];
     const lista = document.getElementById("listaArticulos");
 
     articulos.forEach((nombre, index) => {
@@ -69,7 +69,7 @@
     }
 
     function enviarFormulario() {
-      const url = 'https://script.google.com/macros/s/AKfycbw-n-4HVImQbPzR5ejgnRbESpnJ54XPqEaVVkCSDz1D4V5hsJ3Kcrg5PYiry248TlyK/exec';
+      const url = 'https://script.google.com/macros/s/AKfycbw-n-4HVImQbPzR5ejgnRbESpnJ54XPqEaVVkCSDz1D4V5hsJ3Kcrg5PYiry248TlyK/exec'; // Reemplaza con tu URL real
 
       const data = new URLSearchParams();
       data.append("fecha", document.getElementById("fecha").value);
