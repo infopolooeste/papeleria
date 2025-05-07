@@ -4,12 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pedido de Papelería</title>
-  <link rel="stylesheet" href="style.css"> <!-- Enlaza el archivo CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Logo de la empresa -->
-  <img src="polo logo.jpg" alt="Logo de Polo" id="logo">
 
   <form id="papeleriaForm" onsubmit="enviarFormulario(event)">
     <h2>Formulario de Pedido de Papelería</h2>
@@ -38,22 +35,22 @@
       <option value="Mantenimiento">Mantenimiento</option>
     </select>
 
-    <div class="grid">
-      <div>
-        <label>Tijera</label>
-        <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_tijera" placeholder="Observaciones">
-      </div>
-      <div>
-        <label>Papel</label>
-        <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_papel" placeholder="Observaciones">
-      </div>
-      <div>
-        <label>Lápiz</label>
-        <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_lapiz" placeholder="Observaciones">
-      </div>
+    <div class="articulo">
+      <label>Tijera</label>
+      <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
+      <input type="text" name="obs_tijera" placeholder="Observaciones">
+    </div>
+
+    <div class="articulo">
+      <label>Papel</label>
+      <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
+      <input type="text" name="obs_papel" placeholder="Observaciones">
+    </div>
+
+    <div class="articulo">
+      <label>Lápiz</label>
+      <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
+      <input type="text" name="obs_lapiz" placeholder="Observaciones">
     </div>
 
     <button type="submit">Enviar Pedido</button>
