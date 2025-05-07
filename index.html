@@ -2,47 +2,45 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pedido de Artículos de Papelería</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulario de Pedido - Papelería</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="formulario">
-    <h2>Formulario de Pedido</h2>
+    <h1>Formulario de Pedido de Artículos de Papelería</h1>
 
-    <label>Fecha</label>
-    <input type="text" id="fecha" readonly />
+    <label for="fecha">Fecha:</label>
+    <input type="text" id="fecha" name="fecha" readonly />
 
-    <label>Empresa</label>
-    <select id="empresa">
-      <option value="">Seleccionar</option>
+    <label for="empresa">Empresa:</label>
+    <select id="empresa" name="empresa">
       <option value="BRIASOL">BRIASOL</option>
       <option value="DORALINE">DORALINE</option>
     </select>
 
-    <label>Sector</label>
-    <select id="sector">
-      <option value="">Seleccionar</option>
-      <option>VEHICULOS</option>
-      <option>MERCADO LIBRE</option>
-      <option>MEZZANINE</option>
-      <option>ADUANA</option>
-      <option>INTEGRA</option>
-      <option>ADMINISTRACION</option>
-      <option>RRHH</option>
-      <option>DEPARTAMENTO INFORMATICO</option>
-      <option>MANTENIMIENTO</option>
+    <label for="sector">Sector:</label>
+    <select id="sector" name="sector">
+      <option value="VEHICULOS">VEHICULOS</option>
+      <option value="MERCADO LIBRE">MERCADO LIBRE</option>
+      <option value="MEZZANINE">MEZZANINE</option>
+      <option value="ADUANA">ADUANA</option>
+      <option value="INTEGRA">INTEGRA</option>
+      <option value="ADMINISTRACION">ADMINISTRACION</option>
+      <option value="RRHH">RRHH</option>
+      <option value="DEPARTAMENTO INFORMATICO">DEPARTAMENTO INFORMATICO</option>
+      <option value="MANTENIMIENTO">MANTENIMIENTO</option>
     </select>
 
-    <h3>Artículos</h3>
     <div id="listaArticulos"></div>
+
+    <button type="button" onclick="enviarFormulario()">Enviar pedido</button>
+    <div id="mensaje"></div>
   </div>
 
   <script>
-    // Establecer fecha actual
     document.getElementById('fecha').value = new Date().toLocaleDateString('es-AR');
 
-    // Lista de artículos
     const articulos = [
       "Bibliorato angosto", "Bibliorato ancho", "Bolígrafo BIC (caja) azul", "Bolígrafo BIC (caja) negro", "Bolígrafo BIC (caja) rojo",
       "Calculadora", "Carpeta con elástico", "Cinta adhesiva ancha 48 mm", "Clips 50 mm", "Depósito de clips", "Engrampadora",
@@ -55,16 +53,16 @@
 
     const lista = document.getElementById("listaArticulos");
 
-    articulos.forEach(nombre => {
+    articulos.forEach((nombre, index) => {
       const div = document.createElement("div");
       div.className = "articulo";
       div.innerHTML = `
         <label>
-          <input type="checkbox" onchange="mostrarCampos(this)"> ${nombre}
+          <input type="checkbox" name="item-${index}" value="${nombre}" onchange="mostrarCampos(this)"> ${nombre}
         </label>
         <div class="camposExtra">
-          <input type="number" placeholder="Cantidad">
-          <input type="text" placeholder="Observaciones">
+          <input type="number" name="cantidad-${index}" placeholder="Cantidad">
+          <input type="text" name="obs-${index}" placeholder="Observaciones">
         </div>
       `;
       lista.appendChild(div);
@@ -73,6 +71,38 @@
     function mostrarCampos(checkbox) {
       const campos = checkbox.parentElement.nextElementSibling;
       campos.style.display = checkbox.checked ? "block" : "none";
+    }
+
+    function enviarFormulario() {
+      const url = 'URL_DEL_WEBAPP'; // Reemplaza con la URL de tu Web App de Google Apps Script
+
+      const data = new FormData();
+      data.append("fecha", document.getElementById("fecha").value);
+      data.append("sector", document.getElementById("sector").value);
+      data.append("departamento", document.getElementById("empresa").value);
+
+      document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+        const name = checkbox.name;
+        const index = name.split("-")[1];
+        const cantidad = document.querySelector(`input[name="cantidad-${index}"]`).value;
+        const obs = document.querySelector(`input[name="obs-${index}"]`).value;
+        data.append(name, checkbox.value);
+        data.append("cantidad-" + index, cantidad);
+        data.append("obs-" + index, obs);
+      });
+
+      fetch(url, {
+        method: "POST",
+        body: data
+      })
+      .then(res => res.json())
+      .then(response => {
+        document.getElementById("mensaje").innerText =
+          response.status === "success" ? "✅ Pedido enviado correctamente." : "❌ Error al enviar pedido.";
+      })
+      .catch(err => {
+        document.getElementById("mensaje").innerText = "❌ Error al enviar: " + err.message;
+      });
     }
   </script>
 </body>
