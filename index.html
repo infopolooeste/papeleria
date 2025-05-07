@@ -40,31 +40,37 @@
     }
 
     .articulo {
+      display: flex;
+      align-items: center;
       margin-top: 20px;
+    }
+
+    .articulo label {
+      font-weight: normal;
+      margin-right: 15px;
+      width: 200px;  /* Alineación del nombre del artículo */
+    }
+
+    .articulo input[type="checkbox"] {
+      margin-right: 15px;
+    }
+
+    .articulo div {
+      display: none;  /* Se ocultan los campos de cantidad y observaciones por defecto */
+      flex-grow: 1;
       display: flex;
       align-items: center;
       justify-content: flex-start;
     }
 
-    .articulo label {
-      font-weight: normal;
-      margin-top: 0;
-      margin-right: 15px;
-    }
-
     .articulo input[type="number"],
     .articulo input[type="text"] {
       width: 40%;
-      display: inline-block;
       margin-right: 5%;
     }
 
     .articulo input[type="text"] {
       margin-right: 0;
-    }
-
-    .ocultar {
-      display: none;
     }
 
     button {
@@ -116,7 +122,7 @@
     <div class="articulo">
       <input type="checkbox" id="checkbox_tijera" onclick="mostrarCampos('tijera')">
       <label for="checkbox_tijera">Tijera</label>
-      <div id="tijera" class="ocultar">
+      <div id="tijera">
         <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
         <input type="text" name="obs_tijera" placeholder="Observaciones">
       </div>
@@ -125,7 +131,7 @@
     <div class="articulo">
       <input type="checkbox" id="checkbox_papel" onclick="mostrarCampos('papel')">
       <label for="checkbox_papel">Papel</label>
-      <div id="papel" class="ocultar">
+      <div id="papel">
         <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
         <input type="text" name="obs_papel" placeholder="Observaciones">
       </div>
@@ -134,7 +140,7 @@
     <div class="articulo">
       <input type="checkbox" id="checkbox_lapiz" onclick="mostrarCampos('lapiz')">
       <label for="checkbox_lapiz">Lápiz</label>
-      <div id="lapiz" class="ocultar">
+      <div id="lapiz">
         <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
         <input type="text" name="obs_lapiz" placeholder="Observaciones">
       </div>
@@ -153,9 +159,9 @@
       const checkbox = document.getElementById('checkbox_' + articulo);
 
       if (checkbox.checked) {
-        div.classList.remove('ocultar');
+        div.style.display = 'flex';  // Mostrar los campos
       } else {
-        div.classList.add('ocultar');
+        div.style.display = 'none';  // Ocultar los campos
       }
     }
 
@@ -181,6 +187,9 @@
       });
     }
   </script>
+
+</body>
+</html>
 
 </body>
 </html>
