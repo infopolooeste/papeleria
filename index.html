@@ -40,7 +40,7 @@
       border: 1px solid #ccc;
     }
 
-    /* Estilos para los artículos en forma de planilla */
+    /* Estilos para los artículos */
     .articulo-container {
       display: grid;
       grid-template-columns: 3fr 1fr 2fr; /* Tres columnas: Artículo, Cantidad, Observaciones */
@@ -108,20 +108,35 @@
       <option value="Mantenimiento">Mantenimiento</option>
     </select>
 
+    <!-- Artículos -->
     <div class="articulo-container">
       <div>
         <label for="articulo_tijera">Tijera</label>
+      </div>
+      <div>
         <input type="number" id="cantidad_tijera" name="cantidad_tijera" placeholder="Cantidad">
+      </div>
+      <div>
         <input type="text" id="obs_tijera" name="obs_tijera" placeholder="Observaciones">
       </div>
+
       <div>
         <label for="articulo_papel">Papel</label>
-        <input type="number" id="cantidad_papel" name="cantidad_papel" placeholder="Cantidad">
-        <input type="text" id="obs_papel" name="obs_papel" placeholder="Observaciones">
       </div>
       <div>
+        <input type="number" id="cantidad_papel" name="cantidad_papel" placeholder="Cantidad">
+      </div>
+      <div>
+        <input type="text" id="obs_papel" name="obs_papel" placeholder="Observaciones">
+      </div>
+
+      <div>
         <label for="articulo_lapiz">Lápiz</label>
+      </div>
+      <div>
         <input type="number" id="cantidad_lapiz" name="cantidad_lapiz" placeholder="Cantidad">
+      </div>
+      <div>
         <input type="text" id="obs_lapiz" name="obs_lapiz" placeholder="Observaciones">
       </div>
     </div>
