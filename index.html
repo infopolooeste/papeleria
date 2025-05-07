@@ -26,9 +26,9 @@
     }
 
     label {
+      font-weight: bold;
       display: block;
       margin-top: 15px;
-      font-weight: bold;
     }
 
     select, input[type="text"], input[type="number"], input[type="date"] {
@@ -39,24 +39,29 @@
       border: 1px solid #ccc;
     }
 
-    .articulo {
+    .articulos-container {
       margin-top: 20px;
     }
 
+    .articulo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
     .articulo label {
+      width: 150px;
+      margin: 0;
       font-weight: normal;
-      margin-top: 0;
     }
 
-    .articulo input[type="number"],
-    .articulo input[type="text"] {
-      width: 48%;
-      display: inline-block;
-      margin-right: 4%;
+    .articulo input[type="number"] {
+      width: 100px;
+      margin-right: 10px;
     }
 
     .articulo input[type="text"] {
-      margin-right: 0;
+      flex: 1;
     }
 
     button {
@@ -105,29 +110,30 @@
       <option value="Mantenimiento">Mantenimiento</option>
     </select>
 
-    <div class="articulo">
-      <label>Tijera</label>
-      <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
-      <input type="text" name="obs_tijera" placeholder="Observaciones">
-    </div>
+    <div class="articulos-container">
+      <div class="articulo">
+        <label>Tijera</label>
+        <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
+        <input type="text" name="obs_tijera" placeholder="Observaciones">
+      </div>
 
-    <div class="articulo">
-      <label>Papel</label>
-      <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
-      <input type="text" name="obs_papel" placeholder="Observaciones">
-    </div>
+      <div class="articulo">
+        <label>Papel</label>
+        <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
+        <input type="text" name="obs_papel" placeholder="Observaciones">
+      </div>
 
-    <div class="articulo">
-      <label>Lápiz</label>
-      <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
-      <input type="text" name="obs_lapiz" placeholder="Observaciones">
+      <div class="articulo">
+        <label>Lápiz</label>
+        <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
+        <input type="text" name="obs_lapiz" placeholder="Observaciones">
+      </div>
     </div>
 
     <button type="submit">Enviar Pedido</button>
   </form>
 
   <script>
-    // Establecer la fecha actual automáticamente
     document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
 
     function enviarFormulario(event) {
@@ -155,4 +161,3 @@
 
 </body>
 </html>
-
