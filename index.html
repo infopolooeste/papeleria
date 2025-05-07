@@ -1,105 +1,126 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Formulario de Pedido - Papelería</title>
+  <meta charset="UTF-8">
+  <title>Pedido de Papelería</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    .formulario { max-width: 600px; margin: auto; }
-    .articulo { margin-top: 10px; }
-    .camposExtra { display: none; margin-left: 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+    .form-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="number"] {
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    label {
+      margin-right: 10px;
+    }
+    button {
+      background-color: #5fbc2d;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #mensaje {
+      margin-top: 20px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <div class="formulario">
-    <h1>Formulario de Pedido de Artículos de Papelería</h1>
+  <h1>Formulario de Pedido de Papelería</h1>
 
+  <form id="pedidoForm" onsubmit="enviarFormulario(event)">
     <label for="fecha">Fecha:</label>
-    <input type="text" id="fecha" name="fecha" readonly />
+    <input type="text" id="fecha" name="fecha" readonly><br><br>
 
     <label for="empresa">Empresa:</label>
-    <select id="empresa" name="empresa">
+    <select id="empresa" name="empresa" required>
+      <option value="">Seleccione</option>
       <option value="BRIASOL">BRIASOL</option>
       <option value="DORALINE">DORALINE</option>
-    </select>
+    </select><br><br>
 
     <label for="sector">Sector:</label>
-    <select id="sector" name="sector">
-      <option value="VEHICULOS">VEHICULOS</option>
-      <option value="MERCADO LIBRE">MERCADO LIBRE</option>
-      <option value="MEZZANINE">MEZZANINE</option>
-      <option value="ADUANA">ADUANA</option>
-      <option value="INTEGRA">INTEGRA</option>
-      <option value="ADMINISTRACION">ADMINISTRACION</option>
-      <option value="RRHH">RRHH</option>
-      <option value="DEPARTAMENTO INFORMATICO">DEPARTAMENTO INFORMATICO</option>
-      <option value="MANTENIMIENTO">MANTENIMIENTO</option>
-    </select>
+    <select id="sector" name="sector" required>
+      <option value="">Seleccione</option>
+      <option value="Administración">Administración</option>
+      <option value="Logística">Logística</option>
+      <option value="Ventas">Ventas</option>
+    </select><br><br>
 
-    <div id="listaArticulos"></div>
+    <h3>Artículos</h3>
 
-    <button type="button" onclick="enviarFormulario()">Enviar pedido</button>
-    <div id="mensaje"></div>
-  </div>
+    <div class="form-group">
+      <label><input type="checkbox" name="item-1" value="Lápiz"> Lápiz</label>
+      <input type="number" name="cantidad-1" placeholder="Cantidad">
+      <input type="text" name="obs-1" placeholder="Observaciones">
+    </div>
+
+    <div class="form-group">
+      <label><input type="checkbox" name="item-2" value="Resma A4"> Resma A4</label>
+      <input type="number" name="cantidad-2" placeholder="Cantidad">
+      <input type="text" name="obs-2" placeholder="Observaciones">
+    </div>
+
+    <div class="form-group">
+      <label><input type="checkbox" name="item-3" value="Bolígrafo"> Bolígrafo</label>
+      <input type="number" name="cantidad-3" placeholder="Cantidad">
+      <input type="text" name="obs-3" placeholder="Observaciones">
+    </div>
+
+    <button type="submit">Enviar Pedido</button>
+  </form>
+
+  <p id="mensaje"></p>
 
   <script>
-    document.getElementById('fecha').value = new Date().toLocaleDateString('es-AR');
+    // Coloca la fecha actual en el campo de fecha
+    document.getElementById("fecha").value = new Date().toLocaleDateString('es-AR');
 
-    const articulos = ["Bibliorato angosto", "Bolígrafo azul", "Folios", "Grampas", "Tijera grande"];
-    const lista = document.getElementById("listaArticulos");
+    function enviarFormulario(event) {
+      event.preventDefault();
 
-    articulos.forEach((nombre, index) => {
-      const div = document.createElement("div");
-      div.className = "articulo";
-      div.innerHTML = `
-        <label>
-          <input type="checkbox" name="item-${index}" value="${nombre}" onchange="mostrarCampos(this)"> ${nombre}
-        </label>
-        <div class="camposExtra">
-          <input type="number" name="cantidad-${index}" placeholder="Cantidad">
-          <input type="text" name="obs-${index}" placeholder="Observaciones">
-        </div>
-      `;
-      lista.appendChild(div);
-    });
+      const url = 'https://script.google.com/macros/s/AKfycbwufyvEh81josR0aBUxhA3ixvqhbMuZKVK4IRoc_wVxF5wOeZguw_0kExvfqleT5TXANQ/exec'; // Reemplazalo por tu URL si es otra
 
-    function mostrarCampos(checkbox) {
-      const campos = checkbox.parentElement.nextElementSibling;
-      campos.style.display = checkbox.checked ? "block" : "none";
-    }
-
-    function enviarFormulario() {
-      const url = 'https://script.google.com/macros/s/AKfycbw-n-4HVImQbPzR5ejgnRbESpnJ54XPqEaVVkCSDz1D4V5hsJ3Kcrg5PYiry248TlyK/exec'; // Reemplaza con tu URL real
-
-      const data = new URLSearchParams();
-      data.append("fecha", document.getElementById("fecha").value);
-      data.append("empresa", document.getElementById("empresa").value);
-      data.append("sector", document.getElementById("sector").value);
+      const formData = new FormData();
+      formData.append("fecha", document.getElementById("fecha").value);
+      formData.append("empresa", document.getElementById("empresa").value);
+      formData.append("sector", document.getElementById("sector").value);
 
       document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
         const index = checkbox.name.split("-")[1];
-        data.append(checkbox.name, checkbox.value);
-        data.append("cantidad-" + index, document.querySelector(`input[name="cantidad-${index}"]`).value);
-        data.append("obs-" + index, document.querySelector(`input[name="obs-${index}"]`).value);
+        const cantidad = document.querySelector(`input[name="cantidad-${index}"]`).value;
+        const obs = document.querySelector(`input[name="obs-${index}"]`).value;
+        formData.append(`item-${index}`, checkbox.value);
+        formData.append(`cantidad-${index}`, cantidad);
+        formData.append(`obs-${index}`, obs);
       });
 
       fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: data.toString()
+        body: formData
       })
-      .then(res => res.json())
-      .then(response => {
-        document.getElementById("mensaje").innerText =
-          response.status === "success" ? "✅ Pedido enviado correctamente." : "❌ Error al enviar pedido.";
+      .then(response => response.text())
+      .then(result => {
+        document.getElementById("mensaje").textContent = result;
       })
-      .catch(err => {
-        document.getElementById("mensaje").innerText = "❌ Error al enviar: " + err.message;
+      .catch(error => {
+        document.getElementById("mensaje").textContent = "Error al enviar: " + error.message;
       });
     }
   </script>
 </body>
 </html>
-
