@@ -1,125 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Pedido de Papelería</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      padding: 20px;
-    }
-    .form-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-      align-items: center;
-    }
-    .form-group input[type="text"],
-    .form-group input[type="number"] {
-      padding: 5px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    label {
-      margin-right: 10px;
-    }
-    button {
-      background-color: #5fbc2d;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    #mensaje {
-      margin-top: 20px;
-      font-weight: bold;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulario de Pedido - Papelería</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Formulario de Pedido de Papelería</h1>
+  <div class="formulario">
+    <h1>Formulario de Pedido de Artículos de Papelería</h1>
 
-  <form id="pedidoForm" onsubmit="enviarFormulario(event)">
     <label for="fecha">Fecha:</label>
-    <input type="text" id="fecha" name="fecha" readonly><br><br>
+    <input type="text" id="fecha" name="fecha" readonly />
 
     <label for="empresa">Empresa:</label>
-    <select id="empresa" name="empresa" required>
-      <option value="">Seleccione</option>
+    <select id="empresa" name="empresa">
       <option value="BRIASOL">BRIASOL</option>
       <option value="DORALINE">DORALINE</option>
-    </select><br><br>
+    </select>
 
     <label for="sector">Sector:</label>
-    <select id="sector" name="sector" required>
-      <option value="">Seleccione</option>
-      <option value="Administración">Administración</option>
-      <option value="Logística">Logística</option>
-      <option value="Ventas">Ventas</option>
-    </select><br><br>
+    <select id="sector" name="sector">
+      <option value="VEHICULOS">VEHICULOS</option>
+      <option value="MERCADO LIBRE">MERCADO LIBRE</option>
+      <option value="MEZZANINE">MEZZANINE</option>
+      <option value="ADUANA">ADUANA</option>
+      <option value="INTEGRA">INTEGRA</option>
+      <option value="ADMINISTRACION">ADMINISTRACION</option>
+      <option value="RRHH">RRHH</option>
+      <option value="DEPARTAMENTO INFORMATICO">DEPARTAMENTO INFORMATICO</option>
+      <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+    </select>
 
-    <h3>Artículos</h3>
+    <div id="listaArticulos"></div>
 
-    <div class="form-group">
-      <label><input type="checkbox" name="item-1" value="Lápiz"> Lápiz</label>
-      <input type="number" name="cantidad-1" placeholder="Cantidad">
-      <input type="text" name="obs-1" placeholder="Observaciones">
-    </div>
-
-    <div class="form-group">
-      <label><input type="checkbox" name="item-2" value="Resma A4"> Resma A4</label>
-      <input type="number" name="cantidad-2" placeholder="Cantidad">
-      <input type="text" name="obs-2" placeholder="Observaciones">
-    </div>
-
-    <div class="form-group">
-      <label><input type="checkbox" name="item-3" value="Bolígrafo"> Bolígrafo</label>
-      <input type="number" name="cantidad-3" placeholder="Cantidad">
-      <input type="text" name="obs-3" placeholder="Observaciones">
-    </div>
-
-    <button type="submit">Enviar Pedido</button>
-  </form>
-
-  <p id="mensaje"></p>
+    <button type="button" onclick="enviarFormulario()">Enviar pedido</button>
+    <div id="mensaje"></div>
+  </div>
 
   <script>
-    // Coloca la fecha actual en el campo de fecha
-    document.getElementById("fecha").value = new Date().toLocaleDateString('es-AR');
+    document.getElementById('fecha').value = new Date().toLocaleDateString('es-AR');
 
-    function enviarFormulario(event) {
-      event.preventDefault();
+    const articulos = [
+      "Bibliorato angosto", "Bibliorato ancho", "Bolígrafo BIC (caja) azul", "Bolígrafo BIC (caja) negro", "Bolígrafo BIC (caja) rojo",
+      "Calculadora", "Carpeta con elástico", "Cinta adhesiva ancha 48 mm", "Clips 50 mm", "Depósito de clips", "Engrampadora",
+      "Folios", "Grampas 26/6", "Hojas A4 (resma)", "Lapicera Pilot BP1 color azul", "Lapicera Pilot BP1 color negro",
+      "Lapicera Pilot BP1 color rojo", "Libreta con espiral tamaño 108mm x 169mm", "Marcador fluorescente amarillo",
+      "Marcador fluorescente fucsia", "Marcador fluorescente naranja", "Marcador fluorescente verde", "Marcador permanente negro",
+      "Marcador permanente negro punta ancha", "Perforadora", "Portalápices", "Portaminas", "Postick 76x76", "Regla",
+      "Repuesto portaminas", "Sacagrampas", "Sobres Manila tamaño A4", "Sobres Manila tamaño Oficio", "Tijera grande"
+    ];
 
-      const url = 'https://script.google.com/macros/s/AKfycbw-n-4HVImQbPzR5ejgnRbESpnJ54XPqEaVVkCSDz1D4V5hsJ3Kcrg5PYiry248TlyK/exec'; // Reemplazalo por tu URL si es otra
+    const lista = document.getElementById("listaArticulos");
 
-      const formData = new FormData();
-      formData.append("fecha", document.getElementById("fecha").value);
-      formData.append("empresa", document.getElementById("empresa").value);
-      formData.append("sector", document.getElementById("sector").value);
+    articulos.forEach((nombre, index) => {
+      const div = document.createElement("div");
+      div.className = "articulo";
+      div.innerHTML = `
+        <label>
+          <input type="checkbox" name="item-${index}" value="${nombre}" onchange="mostrarCampos(this)"> ${nombre}
+        </label>
+        <div class="camposExtra" style="display: none;">
+          <input type="number" name="cantidad-${index}" placeholder="Cantidad">
+          <input type="text" name="obs-${index}" placeholder="Observaciones">
+        </div>
+      `;
+      lista.appendChild(div);
+    });
+
+    function mostrarCampos(checkbox) {
+      const campos = checkbox.parentElement.nextElementSibling;
+      campos.style.display = checkbox.checked ? "block" : "none";
+    }
+
+    function enviarFormulario() {
+      const url = 'https://script.google.com/macros/s/AKfycbw-n-4HVImQbPzR5ejgnRbESpnJ54XPqEaVVkCSDz1D4V5hsJ3Kcrg5PYiry248TlyK/exec';
+
+      const fecha = document.getElementById("fecha").value;
+      const sector = document.getElementById("sector").value;
+      const departamento = document.getElementById("empresa").value;
+
+      document.getElementById("mensaje").innerText = "Enviando...";
+
+      const solicitudes = [];
 
       document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
         const index = checkbox.name.split("-")[1];
+        const articulo = checkbox.value;
         const cantidad = document.querySelector(`input[name="cantidad-${index}"]`).value;
-        const obs = document.querySelector(`input[name="obs-${index}"]`).value;
-        formData.append(`item-${index}`, checkbox.value);
-        formData.append(`cantidad-${index}`, cantidad);
-        formData.append(`obs-${index}`, obs);
+        const observaciones = document.querySelector(`input[name="obs-${index}"]`).value;
+
+        const params = new URLSearchParams();
+        params.append("fecha", fecha);
+        params.append("sector", sector);
+        params.append("departamento", departamento);
+        params.append("articulo", articulo);
+        params.append("cantidad", cantidad);
+        params.append("observaciones", observaciones);
+
+        solicitudes.push(
+          fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params
+          })
+        );
       });
 
-      fetch(url, {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.text())
-      .then(result => {
-        document.getElementById("mensaje").textContent = result;
-      })
-      .catch(error => {
-        document.getElementById("mensaje").textContent = "Error al enviar: " + error.message;
-      });
+      Promise.all(solicitudes)
+        .then(responses => Promise.all(responses.map(r => r.text())))
+        .then(resultados => {
+          document.getElementById("mensaje").innerText = "✅ Pedido enviado correctamente.";
+        })
+        .catch(err => {
+          document.getElementById("mensaje").innerText = "❌ Error al enviar: " + err.message;
+        });
     }
   </script>
 </body>
