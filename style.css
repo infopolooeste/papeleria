@@ -33,24 +33,26 @@ select, input[type="text"], input[type="number"], input[type="date"], input[type
   border: 1px solid #ccc;
 }
 
-/* Artículos */
+/* Estilos de los artículos */
 .articulo {
   display: flex;
-  justify-content: space-between; /* Alinea los elementos a los extremos */
-  align-items: center;
+  justify-content: center;
   margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
 }
 
 .articulo label {
-  flex: 1;  /* Hace que el artículo ocupe el espacio disponible */
-  text-align: left;  /* Alinea el texto del artículo a la izquierda */
+  font-weight: normal;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .articulo input[type="number"],
 .articulo input[type="text"] {
-  width: 30%;  /* Los campos de cantidad y observaciones tienen el mismo tamaño */
-  margin-left: 10px; /* Agregado un pequeño margen para separarlos */
-  text-align: center; /* Centrado del texto */
+  width: 80%;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 /* Estilos del botón */
