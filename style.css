@@ -33,25 +33,29 @@ select, input[type="text"], input[type="number"], input[type="date"], input[type
   border: 1px solid #ccc;
 }
 
-/* Estilos de los artículos */
+/* Contenedor de los artículos */
+.articulos-container {
+  display: block;
+  margin-top: 20px;
+}
+
+/* Cada artículo en la lista */
 .articulo {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .articulo label {
-  font-weight: normal;
-  margin-bottom: 10px;
-  text-align: center;
+  width: 60%;  /* Ocupa el 60% de la línea */
+  text-align: left;  /* Alineado a la izquierda */
 }
 
 .articulo input[type="number"],
 .articulo input[type="text"] {
-  width: 80%;
-  margin-bottom: 10px;
+  width: 30%;  /* Los campos de cantidad y observaciones ocupan el 30% de la línea */
+  margin-left: 10px;
   text-align: center;
 }
 
