@@ -48,17 +48,10 @@ select, input[type="text"], input[type="number"], input[type="date"], input[type
   text-align: center;
 }
 
-/* Modificar tamaño del campo cantidad */
-.articulo input[type="number"] {
-  width: 40%;  /* Reducido el tamaño del campo cantidad */
-  margin-right: 10px;  /* Agregado margen entre cantidad y observaciones */
-  text-align: center;
-}
-
-/* Campo observaciones con separación */
+.articulo input[type="number"],
 .articulo input[type="text"] {
-  width: 50%;  /* Aumentado el tamaño del campo observaciones */
-  margin-top: 10px; /* Separación entre cantidad y observaciones */
+  width: 80%;
+  margin-bottom: 10px;
   text-align: center;
 }
 
