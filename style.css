@@ -12,6 +12,7 @@ form {
   max-width: 700px;
   margin: auto;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  position: relative; /* Asegura que el logo quede dentro del formulario */
 }
 
 h2 {
@@ -66,6 +67,6 @@ button:hover {
   position: absolute;
   top: 20px;
   left: 20px;
-  width: 100px; /* Ajusta el tamaño del logo si es necesario */
+  width: 30%; /* Achica el logo un 70% */
   height: auto;
 }
