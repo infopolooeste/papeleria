@@ -7,143 +7,164 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+      background-color: #f1f1f1;
       padding: 20px;
     }
 
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 700px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h2 {
+    h1 {
       text-align: center;
       color: #333;
     }
 
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
     label {
-      display: block;
-      margin-top: 15px;
       font-weight: bold;
     }
 
-    select, input[type="text"], input[type="number"], input[type="date"] {
+    select, input[type="text"], input[type="number"] {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
-      border-radius: 5px;
       border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+    .item-row {
+      display: flex;
+      align-items: center;
       gap: 10px;
-      margin-top: 20px;
+      margin-bottom: 10px;
     }
 
-    .grid label {
-      font-weight: normal;
-      margin-top: 0;
+    .item-row input[type="number"],
+    .item-row input[type="text"] {
+      flex: 1;
+    }
+
+    .item-label {
+      width: 250px;
     }
 
     button {
-      display: block;
-      margin: 30px auto 0;
-      padding: 12px 25px;
-      font-size: 16px;
       background-color: #5fbc2d;
       color: white;
       border: none;
-      border-radius: 6px;
+      padding: 12px 20px;
+      border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
     }
 
     button:hover {
-      background-color: #4da724;
+      background-color: #4aa327;
     }
   </style>
 </head>
 <body>
-
-  <form id="papeleriaForm" onsubmit="enviarFormulario(event)">
-    <h2>Formulario de Pedido de Papelería</h2>
-
-    <label for="fecha">Fecha</label>
-    <input type="date" id="fecha" name="fecha" readonly>
-
-    <label for="empresa">Empresa</label>
-    <select id="empresa" name="empresa" required>
-      <option value="">Seleccione una empresa</option>
-      <option value="Briasol">Briasol</option>
-      <option value="Doraline">Doraline</option>
-    </select>
-
-    <label for="sector">Sector</label>
-    <select id="sector" name="sector" required>
-      <option value="">Seleccione un sector</option>
-      <option value="Mercado Libre">Mercado Libre</option>
-      <option value="Vehículos">Vehículos</option>
-      <option value="Integra">Integra</option>
-      <option value="Aduana">Aduana</option>
-      <option value="Mezzanine">Mezzanine</option>
-      <option value="Recursos Humanos">Recursos Humanos</option>
-      <option value="Departamento informático">Departamento informático</option>
-      <option value="Administración">Administración</option>
-      <option value="Mantenimiento">Mantenimiento</option>
-    </select>
-
-    <div class="grid">
-      <div>
-        <label>Tijera</label>
-        <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_tijera" placeholder="Observaciones">
-      </div>
-      <div>
-        <label>Papel</label>
-        <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_papel" placeholder="Observaciones">
-      </div>
-      <div>
-        <label>Lápiz</label>
-        <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_lapiz" placeholder="Observaciones">
-      </div>
+  <h1>Formulario de Pedido de Papelería</h1>
+  <form id="pedidoForm" onsubmit="enviarPedido(event)">
+    <div class="form-group">
+      <label>Fecha</label>
+      <input type="text" name="fecha" id="fecha" readonly />
     </div>
 
-    <button type="submit">Enviar Pedido</button>
+    <div class="form-group">
+      <label>Empresa</label>
+      <select name="empresa" required>
+        <option value="">Seleccione una empresa</option>
+        <option value="Briasol">Briasol</option>
+        <option value="Doraline">Doraline</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Sector</label>
+      <select name="sector" required>
+        <option value="">Seleccione un sector</option>
+        <option>Mercado Libre</option>
+        <option>Vehículos</option>
+        <option>Integra</option>
+        <option>Aduana</option>
+        <option>Mezzanine</option>
+        <option>Recursos Humanos</option>
+        <option>Departamento informático</option>
+        <option>Administración</option>
+        <option>Mantenimiento</option>
+      </select>
+    </div>
+
+    <hr>
+
+    <!-- Lista de artículos -->
+    <div id="articulos">
+      <!-- Se llenará con JavaScript -->
+    </div>
+
+    <button type="submit">Enviar pedido</button>
   </form>
 
   <script>
-    // Establecer la fecha actual automáticamente
-    document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
+    document.getElementById("fecha").value = new Date().toLocaleDateString("es-AR");
 
-    function enviarFormulario(event) {
+    const articulos = [
+      "Bibliorato angosto", "Bibliorato ancho", "Bolígrafo BIC (caja) azul", "Bolígrafo BIC (caja) negro", "Bolígrafo BIC (caja) rojo",
+      "Calculadora", "Carpeta con elástico", "Cinta adhesiva ancha 48 mm", "Clips 50 mm", "Depósito de clips",
+      "Engrampadora", "Folios", "Grampas 26/6", "Hojas A4 (resma)", "Lapicera Pilot BP1 color azul",
+      "Lapicera Pilot BP1 color negro", "Lapicera Pilot BP1 color rojo", "Libreta con espiral tamaño 108mm x 169mm",
+      "Marcador fluorescente amarillo", "Marcador fluorescente fucsia", "Marcador fluorescente naranja",
+      "Marcador fluorescente verde", "Marcador permanente negro", "Marcador permanente negro punta ancha",
+      "Perforadora", "Portalápices", "Portaminas", "Postick 76x76", "Regla", "Repuesto portaminas", "Sacagrampas",
+      "Sobres Manila tamaño A4", "Sobres Manila tamaño Oficio", "Tijera grande"
+    ];
+
+    const contenedor = document.getElementById("articulos");
+
+    articulos.forEach(nombre => {
+      const div = document.createElement("div");
+      div.className = "item-row";
+      div.innerHTML = `
+        <div class="item-label">${nombre}</div>
+        <input type="number" name="cantidad_${nombre}" placeholder="Cantidad" min="0" />
+        <input type="text" name="observaciones_${nombre}" placeholder="Observaciones" />
+      `;
+      contenedor.appendChild(div);
+    });
+
+    function enviarPedido(event) {
       event.preventDefault();
 
-      const form = document.getElementById('papeleriaForm');
+      const form = document.getElementById("pedidoForm");
       const formData = new FormData(form);
 
-      fetch('https://script.google.com/macros/s/AKfycbxDpeVxuFXQpcfpPiz320bhxjdqxfEOkT-J5bXFij7FvLp8R6FgzBL6-6QhOi8uAqgN/exec', {
-        method: 'POST',
+      fetch("https://script.google.com/macros/s/AKfycbxDpeVxuFXQpcfpPiz320bhxjdqxfEOkT-J5bXFij7FvLp8R6FgzBL6-6QhOi8uAqgN/exec", {
+        method: "POST",
         body: formData
       })
       .then(response => response.text())
       .then(result => {
-        alert('Pedido enviado correctamente.');
+        alert("Pedido enviado correctamente.");
         form.reset();
-        document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
+        document.getElementById("fecha").value = new Date().toLocaleDateString("es-AR");
       })
       .catch(error => {
-        console.error('Error al enviar:', error);
-        alert('Error al enviar el pedido. Intente nuevamente.');
+        alert("Error al enviar el pedido.");
+        console.error("Error:", error);
       });
     }
   </script>
-
 </body>
 </html>
