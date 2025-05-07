@@ -36,40 +36,23 @@ select, input[type="text"], input[type="number"], input[type="date"], input[type
 /* Estilos de los artículos */
 .articulo {
   display: flex;
-  align-items: center;
+  justify-content: center;
   margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
 }
 
 .articulo label {
   font-weight: normal;
-  margin-right: 15px;
-  width: auto;
-  flex-grow: 1;
-  text-align: left; /* Alineación a la izquierda del artículo */
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-.articulo input[type="checkbox"] {
-  margin-left: 0; /* Alinear el checkbox a la izquierda */
-  margin-right: 10px; /* Espaciado entre checkbox y el artículo */
-}
-
-/* Estilos de los campos de cantidad y observaciones (ocultos por defecto) */
-.campos {
-  display: none;  /* Ocultar por defecto */
-  flex-grow: 1;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.campos input[type="number"],
-.campos input[type="text"] {
-  width: 40%;
-  margin-right: 5%;
-}
-
-.campos input[type="text"] {
-  margin-right: 0;
+.articulo input[type="number"],
+.articulo input[type="text"] {
+  width: 80%;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 /* Estilos del botón */
