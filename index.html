@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Formulario de Pedido de Papelería</title>
+  <title>Pedido de Papelería</title>
   <style>
-    /* Estilos generales */
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f0f0;
@@ -32,7 +31,7 @@
       font-weight: bold;
     }
 
-    select, input[type="text"], input[type="number"], input[type="date"], input[type="checkbox"] {
+    select, input[type="text"], input[type="number"], input[type="date"] {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
@@ -40,28 +39,18 @@
       border: 1px solid #ccc;
     }
 
-    /* Estilos para los artículos */
-    .articulo-container {
+    .grid {
       display: grid;
-      grid-template-columns: 3fr 1fr 2fr; /* Tres columnas: Artículo, Cantidad, Observaciones */
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 10px;
       margin-top: 20px;
     }
 
-    .articulo-container label {
-      text-align: left;
-      margin-bottom: 5px;
+    .grid label {
+      font-weight: normal;
+      margin-top: 0;
     }
 
-    .articulo-container input[type="number"],
-    .articulo-container input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    /* Estilos del botón */
     button {
       display: block;
       margin: 30px auto 0;
@@ -81,7 +70,7 @@
 </head>
 <body>
 
-  <form id="papeleriaForm">
+  <form id="papeleriaForm" onsubmit="enviarFormulario(event)">
     <h2>Formulario de Pedido de Papelería</h2>
 
     <label for="fecha">Fecha</label>
@@ -108,36 +97,21 @@
       <option value="Mantenimiento">Mantenimiento</option>
     </select>
 
-    <!-- Artículos -->
-    <div class="articulo-container">
+    <div class="grid">
       <div>
-        <label for="articulo_tijera">Tijera</label>
+        <label>Tijera</label>
+        <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
+        <input type="text" name="obs_tijera" placeholder="Observaciones">
       </div>
       <div>
-        <input type="number" id="cantidad_tijera" name="cantidad_tijera" placeholder="Cantidad">
+        <label>Papel</label>
+        <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
+        <input type="text" name="obs_papel" placeholder="Observaciones">
       </div>
       <div>
-        <input type="text" id="obs_tijera" name="obs_tijera" placeholder="Observaciones">
-      </div>
-
-      <div>
-        <label for="articulo_papel">Papel</label>
-      </div>
-      <div>
-        <input type="number" id="cantidad_papel" name="cantidad_papel" placeholder="Cantidad">
-      </div>
-      <div>
-        <input type="text" id="obs_papel" name="obs_papel" placeholder="Observaciones">
-      </div>
-
-      <div>
-        <label for="articulo_lapiz">Lápiz</label>
-      </div>
-      <div>
-        <input type="number" id="cantidad_lapiz" name="cantidad_lapiz" placeholder="Cantidad">
-      </div>
-      <div>
-        <input type="text" id="obs_lapiz" name="obs_lapiz" placeholder="Observaciones">
+        <label>Lápiz</label>
+        <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
+        <input type="text" name="obs_lapiz" placeholder="Observaciones">
       </div>
     </div>
 
@@ -148,11 +122,32 @@
     // Establecer la fecha actual automáticamente
     document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
 
-    document.getElementById('papeleriaForm').addEventListener('submit', function(event) {
+    function enviarFormulario(event) {
       event.preventDefault();
-      alert('Pedido enviado correctamente');
-    });
+
+      const form = document.getElementById('papeleriaForm');
+      const formData = new FormData(form);
+
+      fetch('https://script.google.com/macros/s/AKfycbxDpeVxuFXQpcfpPiz320bhxjdqxfEOkT-J5bXFij7FvLp8R6FgzBL6-6QhOi8uAqgN/exec', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.text())
+      .then(result => {
+        alert('Pedido enviado correctamente.');
+        form.reset();
+        document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
+      })
+      .catch(error => {
+        console.error('Error al enviar:', error);
+        alert('Error al enviar el pedido. Intente nuevamente.');
+      });
+    }
   </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
