@@ -84,7 +84,7 @@
 <body>
 
   <form id="papeleriaForm" onsubmit="enviarFormulario(event)">
-    <h2>Formulario de Pedido de Papelería</h2>
+    <h2>Pedido de Papelería</h2>
 
     <label for="fecha">Fecha</label>
     <input type="date" id="fecha" name="fecha" readonly>
@@ -111,35 +111,40 @@
     </select>
 
     <div class="articulos-container">
-      <div class="articulo">
-        <label>Tijera</label>
-        <input type="number" name="cantidad_tijera" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_tijera" placeholder="Observaciones">
-      </div>
-
-      <div class="articulo">
-        <label>Papel</label>
-        <input type="number" name="cantidad_papel" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_papel" placeholder="Observaciones">
-      </div>
-
-      <div class="articulo">
-        <label>Lápiz</label>
-        <input type="number" name="cantidad_lapiz" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_lapiz" placeholder="Observaciones">
-      </div>
-
-      <div class="articulo">
-        <label>Regla</label>
-        <input type="number" name="cantidad_regla" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_regla" placeholder="Observaciones">
-      </div>
-
-      <div class="articulo">
-        <label>Carpeta</label>
-        <input type="number" name="cantidad_carpeta" min="0" placeholder="Cantidad">
-        <input type="text" name="obs_carpeta" placeholder="Observaciones">
-      </div>
+      <div class="articulo"><label>Bibliorato angosto</label><input type="number" name="cantidad_bibliorato_angosto"><input type="text" name="obs_bibliorato_angosto"></div>
+      <div class="articulo"><label>Bibliorato ancho</label><input type="number" name="cantidad_bibliorato_ancho"><input type="text" name="obs_bibliorato_ancho"></div>
+      <div class="articulo"><label>Bolígrafo BIC (caja) azul</label><input type="number" name="cantidad_bic_azul"><input type="text" name="obs_bic_azul"></div>
+      <div class="articulo"><label>Bolígrafo BIC (caja) negro</label><input type="number" name="cantidad_bic_negro"><input type="text" name="obs_bic_negro"></div>
+      <div class="articulo"><label>Bolígrafo BIC (caja) rojo</label><input type="number" name="cantidad_bic_rojo"><input type="text" name="obs_bic_rojo"></div>
+      <div class="articulo"><label>Calculadora</label><input type="number" name="cantidad_calculadora"><input type="text" name="obs_calculadora"></div>
+      <div class="articulo"><label>Carpeta con elástico</label><input type="number" name="cantidad_carpeta"><input type="text" name="obs_carpeta"></div>
+      <div class="articulo"><label>Cinta adhesiva ancha 48 mm</label><input type="number" name="cantidad_cinta"><input type="text" name="obs_cinta"></div>
+      <div class="articulo"><label>Clips 50 mm</label><input type="number" name="cantidad_clips"><input type="text" name="obs_clips"></div>
+      <div class="articulo"><label>Depósito de clips</label><input type="number" name="cantidad_deposito_clips"><input type="text" name="obs_deposito_clips"></div>
+      <div class="articulo"><label>Engrampadora</label><input type="number" name="cantidad_engrampadora"><input type="text" name="obs_engrampadora"></div>
+      <div class="articulo"><label>Folios</label><input type="number" name="cantidad_folios"><input type="text" name="obs_folios"></div>
+      <div class="articulo"><label>Grampas 26/6</label><input type="number" name="cantidad_grampas"><input type="text" name="obs_grampas"></div>
+      <div class="articulo"><label>Hojas A4 (resma)</label><input type="number" name="cantidad_hojas"><input type="text" name="obs_hojas"></div>
+      <div class="articulo"><label>Lapicera Pilot BP1 color azul</label><input type="number" name="cantidad_pilot_azul"><input type="text" name="obs_pilot_azul"></div>
+      <div class="articulo"><label>Lapicera Pilot BP1 color negro</label><input type="number" name="cantidad_pilot_negro"><input type="text" name="obs_pilot_negro"></div>
+      <div class="articulo"><label>Lapicera Pilot BP1 color rojo</label><input type="number" name="cantidad_pilot_rojo"><input type="text" name="obs_pilot_rojo"></div>
+      <div class="articulo"><label>Libreta con espiral tamaño 108mm x 169mm</label><input type="number" name="cantidad_libreta"><input type="text" name="obs_libreta"></div>
+      <div class="articulo"><label>Marcador fluorescente amarillo</label><input type="number" name="cantidad_marker_amarillo"><input type="text" name="obs_marker_amarillo"></div>
+      <div class="articulo"><label>Marcador fluorescente fucsia</label><input type="number" name="cantidad_marker_fucsia"><input type="text" name="obs_marker_fucsia"></div>
+      <div class="articulo"><label>Marcador fluorescente naranja</label><input type="number" name="cantidad_marker_naranja"><input type="text" name="obs_marker_naranja"></div>
+      <div class="articulo"><label>Marcador fluorescente verde</label><input type="number" name="cantidad_marker_verde"><input type="text" name="obs_marker_verde"></div>
+      <div class="articulo"><label>Marcador permanente negro</label><input type="number" name="cantidad_perm_negro"><input type="text" name="obs_perm_negro"></div>
+      <div class="articulo"><label>Marcador permanente negro punta ancha</label><input type="number" name="cantidad_perm_punta"><input type="text" name="obs_perm_punta"></div>
+      <div class="articulo"><label>Perforadora</label><input type="number" name="cantidad_perforadora"><input type="text" name="obs_perforadora"></div>
+      <div class="articulo"><label>Portalápices</label><input type="number" name="cantidad_portalapices"><input type="text" name="obs_portalapices"></div>
+      <div class="articulo"><label>Portaminas</label><input type="number" name="cantidad_portaminas"><input type="text" name="obs_portaminas"></div>
+      <div class="articulo"><label>Postick 76x76</label><input type="number" name="cantidad_postick"><input type="text" name="obs_postick"></div>
+      <div class="articulo"><label>Regla</label><input type="number" name="cantidad_regla"><input type="text" name="obs_regla"></div>
+      <div class="articulo"><label>Repuesto portaminas</label><input type="number" name="cantidad_repuesto"><input type="text" name="obs_repuesto"></div>
+      <div class="articulo"><label>Sacagrampas</label><input type="number" name="cantidad_sacagrampas"><input type="text" name="obs_sacagrampas"></div>
+      <div class="articulo"><label>Sobres Manila tamaño A4</label><input type="number" name="cantidad_sobre_a4"><input type="text" name="obs_sobre_a4"></div>
+      <div class="articulo"><label>Sobres Manila tamaño Oficio</label><input type="number" name="cantidad_sobre_oficio"><input type="text" name="obs_sobre_oficio"></div>
+      <div class="articulo"><label>Tijera grande</label><input type="number" name="cantidad_tijera"><input type="text" name="obs_tijera"></div>
     </div>
 
     <button type="submit">Enviar Pedido</button>
@@ -154,7 +159,7 @@
       const form = document.getElementById('papeleriaForm');
       const formData = new FormData(form);
 
-      fetch('https://script.google.com/macros/s/AKfycbxDpeVxuFXQpcfpPiz320bhxjdqxfEOkT-J5bXFij7FvLp8R6FgzBL6-6QhOi8uAqgN/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbw-n-4HVImQbPzR5ejgnRbESpnJ54XPqEaVVkCSDz1D4V5hsJ3Kcrg5PYiry248TlyK/exec', {
         method: 'POST',
         body: formData
       })
@@ -173,3 +178,4 @@
 
 </body>
 </html>
+
