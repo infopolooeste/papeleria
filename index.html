@@ -1,179 +1,198 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Formulario de Pedido - Papelería</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pedido de Papelería</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f0f0;
       padding: 20px;
     }
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+    }
     form {
-      background-color: #fff;
+      background-color: white;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 700px;
-      margin: 0 auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: auto;
     }
-    label, select, input, textarea {
+    .campo {
+      margin-bottom: 15px;
+    }
+    .campo label {
       display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select {
+      padding: 8px;
       width: 100%;
-      margin-bottom: 12px;
+      box-sizing: border-box;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
     .articulo {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #f9f9f9;
-    }
-    .articulo label {
-      display: inline-block;
-      width: auto;
-    }
-    .cantidad, .observaciones {
-      width: 30%;
-      display: inline-block;
-      margin-left: 10px;
-    }
-    .boton {
-      background-color: #4CAF50;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .boton:hover {
-      transform: scale(1.05);
-    }
-    .fila {
       display: flex;
       align-items: center;
       gap: 10px;
+      margin-bottom: 10px;
+    }
+    .articulo label {
+      flex: 1;
+    }
+    .articulo input[type="number"],
+    .articulo input[type="text"] {
+      width: 100px;
+    }
+    button {
+      background-color: #2e7d32;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 20px auto 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      transform: scale(1.03);
     }
   </style>
 </head>
 <body>
-  <form id="pedidoForm">
-    <h2>Formulario de Pedido - Papelería</h2>
-
-    <label for="fecha">Fecha:</label>
-    <input type="date" id="fecha" name="fecha" readonly />
-
-    <label for="empresa">Empresa:</label>
-    <select id="empresa" name="empresa" required>
-      <option value="">Seleccione una empresa</option>
-      <option value="BRIASOL">BRIASOL</option>
-      <option value="DORALINE">DORALINE</option>
-    </select>
-
-    <label for="sector">Sector:</label>
-    <select id="sector" name="sector" required>
-      <option value="">Seleccione un sector</option>
-      <option>Mercado Libre</option>
-      <option>Vehículos</option>
-      <option>Integra</option>
-      <option>Aduana</option>
-      <option>Mezzanine</option>
-      <option>Recursos Humanos</option>
-      <option>Departamento informático</option>
-      <option>Administración</option>
-      <option>Mantenimiento</option>
-    </select>
-
-    <h3>Artículos</h3>
-    <div id="articulos">
-      <!-- Los artículos se generan con JS -->
+  <h1>Formulario de Pedido - Papelería</h1>
+  <form id="papeleriaForm" onsubmit="enviarFormulario(event)">
+    <div class="campo">
+      <label for="fecha">Fecha</label>
+      <input type="date" id="fecha" name="fecha" readonly>
+    </div>
+    <div class="campo">
+      <label for="empresa">Empresa</label>
+      <select id="empresa" name="empresa" required>
+        <option value="">Seleccione...</option>
+        <option value="BRIASOL">BRIASOL</option>
+        <option value="DORALINE">DORALINE</option>
+      </select>
+    </div>
+    <div class="campo">
+      <label for="sector">Sector</label>
+      <select id="sector" name="sector" required>
+        <option value="">Seleccione...</option>
+        <option>Mercado Libre</option>
+        <option>Vehículos</option>
+        <option>Integra</option>
+        <option>Aduana</option>
+        <option>Mezzanine</option>
+        <option>Recursos Humanos</option>
+        <option>Departamento informático</option>
+        <option>Administración</option>
+        <option>Mantenimiento</option>
+      </select>
     </div>
 
-    <button type="submit" class="boton">Enviar Pedido</button>
+    <h3>Artículos</h3>
+
+    <div class="articulo"><label>Bibliorato angosto</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Bibliorato ancho</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Bolígrafo BIC (caja) azul</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Bolígrafo BIC (caja) negro</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Bolígrafo BIC (caja) rojo</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Calculadora</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Carpeta con elástico</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Cinta adhesiva ancha 48 mm</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Clips 50 mm</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Depósito de clips</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Engrampadora</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Folios</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Grampas 26/6</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Hojas A4 (resma)</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Lapicera Pilot BP1 color azul</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Lapicera Pilot BP1 color negro</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Lapicera Pilot BP1 color rojo</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Libreta con espiral tamaño 108mm x 169mm</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Marcador fluorescente amarillo</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Marcador fluorescente fucsia</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Marcador fluorescente naranja</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Marcador fluorescente verde</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Marcador permanente negro</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Marcador permanente negro punta ancha</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Perforadora</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Portalápices</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Portaminas</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Postick 76x76</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Regla</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Repuesto portaminas</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Sacagrampas</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Sobres Manila tamaño A4</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Sobres Manila tamaño Oficio</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+    <div class="articulo"><label>Tijera grande</label><input type="number"><input type="text" placeholder="Observaciones"></div>
+
+    <button type="submit">Enviar Pedido</button>
   </form>
 
   <script>
-    const articulos = [
-      "Bibliorato angosto", "Bibliorato ancho", "Bolígrafo BIC (caja) azul",
-      "Bolígrafo BIC (caja) negro", "Bolígrafo BIC (caja) rojo", "Calculadora",
-      "Carpeta con elástico", "Cinta adhesiva ancha 48 mm", "Clips 50 mm",
-      "Depósito de clips", "Engrampadora", "Folios", "Grampas 26/6",
-      "Hojas A4 (resma)", "Lapicera Pilot BP1 color azul", "Lapicera Pilot BP1 color negro",
-      "Lapicera Pilot BP1 color rojo", "Libreta con espiral tamaño 108mm x 169mm",
-      "Marcador fluorescente amarillo", "Marcador fluorescente fucsia",
-      "Marcador fluorescente naranja", "Marcador fluorescente verde",
-      "Marcador permanente negro", "Marcador permanente negro punta ancha",
-      "Perforadora", "Portalápices", "Portaminas", "Postick 76x76", "Regla",
-      "Repuesto portaminas", "Sacagrampas", "Sobres Manila tamaño A4",
-      "Sobres Manila tamaño Oficio", "Tijera grande"
-    ];
+    document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
 
-    const contenedor = document.getElementById("articulos");
-    articulos.forEach(nombre => {
-      const div = document.createElement("div");
-      div.className = "articulo";
-      div.innerHTML = `
-        <div class="fila">
-          <input type="checkbox" class="check" data-nombre="${nombre}" />
-          <label>${nombre}</label>
-          <input type="number" placeholder="Cantidad" class="cantidad" min="1" />
-          <input type="text" placeholder="Observaciones" class="observaciones" />
-        </div>
-      `;
-      contenedor.appendChild(div);
-    });
+    function enviarFormulario(event) {
+      event.preventDefault();
 
-    document.getElementById("fecha").value = new Date().toISOString().split("T")[0];
+      const form = document.getElementById('papeleriaForm');
+      const fecha = document.getElementById('fecha').value;
+      const empresa = document.getElementById('empresa').value;
+      const sector = document.getElementById('sector').value;
 
-    document.getElementById("pedidoForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const fecha = document.getElementById("fecha").value;
-      const empresa = document.getElementById("empresa").value;
-      const sector = document.getElementById("sector").value;
-
+      const articulos = document.querySelectorAll('.articulo');
       const pedidos = [];
 
-      document.querySelectorAll(".articulo").forEach(div => {
-        const check = div.querySelector(".check");
-        const cantidad = div.querySelector(".cantidad").value;
-        const observaciones = div.querySelector(".observaciones").value;
+      articulos.forEach(div => {
+        const label = div.querySelector('label').textContent.trim();
+        const cantidad = div.querySelector('input[type="number"]').value;
+        const observaciones = div.querySelector('input[type="text"]').value;
 
-        if (check.checked && cantidad) {
+        if (cantidad || observaciones) {
           pedidos.push({
             fecha,
             empresa,
             sector,
-            articulo: check.dataset.nombre,
+            articulo: label,
             cantidad,
             observaciones
           });
         }
       });
 
-      if (pedidos.length === 0) {
-        alert("Debe seleccionar al menos un artículo con cantidad.");
-        return;
-      }
+      Promise.all(pedidos.map(pedido => {
+        const formData = new FormData();
+        formData.append('fecha', pedido.fecha);
+        formData.append('empresa', pedido.empresa);
+        formData.append('sector', pedido.sector);
+        formData.append('articulo', pedido.articulo);
+        formData.append('cantidad', pedido.cantidad);
+        formData.append('observaciones', pedido.observaciones);
 
-      fetch("https://script.google.com/macros/s/AKfycbw-n-4HVImQbPzR5ejgnRbESpnJ54XPqEaVVkCSDz1D4V5hsJ3Kcrg5PYiry248TlyK/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pedidos })
-      })
+        return fetch('https://script.google.com/macros/s/AKfycbyedGgDC4hbwUSs3RaoVG-6vA0hOKtJGx5IePycMZE4x57liiPpIUfVL2Zww_mY0Kbprg/exec', {
+          method: 'POST',
+          body: formData
+        });
+      }))
       .then(() => {
-        alert("Pedido enviado correctamente.");
-        document.getElementById("pedidoForm").reset();
-        document.getElementById("fecha").value = new Date().toISOString().split("T")[0];
+        alert('Pedido enviado correctamente.');
+        form.reset();
+        document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
       })
       .catch(error => {
-        console.error("Error al enviar:", error);
-        alert("Error al enviar el pedido.");
+        console.error('Error al enviar:', error);
+        alert('Error al enviar el pedido. Intente nuevamente.');
       });
-    });
+    }
   </script>
 </body>
 </html>
-
