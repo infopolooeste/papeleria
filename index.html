@@ -56,6 +56,9 @@
       align-items: center;
       gap: 10px;
     }
+    .check {
+      margin-left: 10px;
+    }
   </style>
 </head>
 <body>
@@ -116,7 +119,6 @@
       div.className = "articulo";
       div.innerHTML = `
         <div class="fila">
-          <input type="checkbox" class="check" data-nombre="${nombre}" />
           <label>${nombre}</label>
           <input type="number" placeholder="Cantidad" class="cantidad" min="1" />
           <input type="text" placeholder="Observaciones" class="observaciones" />
@@ -137,16 +139,15 @@
       const pedidos = [];
 
       document.querySelectorAll(".articulo").forEach(div => {
-        const check = div.querySelector(".check");
         const cantidad = div.querySelector(".cantidad").value;
         const observaciones = div.querySelector(".observaciones").value;
 
-        if (check.checked && cantidad) {
+        if (cantidad) {
           pedidos.push({
             fecha,
             empresa,
             sector,
-            articulo: check.dataset.nombre,
+            articulo: div.querySelector("label").textContent,
             cantidad,
             observaciones
           });
@@ -176,3 +177,4 @@
   </script>
 </body>
 </html>
+
