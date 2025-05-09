@@ -56,9 +56,6 @@
       align-items: center;
       gap: 10px;
     }
-    .check {
-      margin-left: 10px;
-    }
   </style>
 </head>
 <body>
@@ -119,6 +116,7 @@
       div.className = "articulo";
       div.innerHTML = `
         <div class="fila">
+          <input type="checkbox" class="check" data-nombre="${nombre}" />
           <label>${nombre}</label>
           <input type="number" placeholder="Cantidad" class="cantidad" min="1" />
           <input type="text" placeholder="Observaciones" class="observaciones" />
@@ -139,15 +137,16 @@
       const pedidos = [];
 
       document.querySelectorAll(".articulo").forEach(div => {
+        const check = div.querySelector(".check");
         const cantidad = div.querySelector(".cantidad").value;
         const observaciones = div.querySelector(".observaciones").value;
 
-        if (cantidad) {
+        if (check.checked && cantidad) {
           pedidos.push({
             fecha,
             empresa,
             sector,
-            articulo: div.querySelector("label").textContent,
+            articulo: check.dataset.nombre,
             cantidad,
             observaciones
           });
@@ -159,7 +158,7 @@
         return;
       }
 
-      fetch("https://script.google.com/macros/s/AKfycbyedGgDC4hbwUSs3RaoVG-6vA0hOKtJGx5IePycMZE4x57liiPpIUfVL2Zww_mY0Kbprg/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbw-n-4HVImQbPzR5ejgnRbESpnJ54XPqEaVVkCSDz1D4V5hsJ3Kcrg5PYiry248TlyK/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pedidos })
