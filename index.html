@@ -59,27 +59,22 @@
       cursor: pointer;
       font-size: 16px;
       display: block;
-      margin: 20px auto 0;
+      margin: 20px auto 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
     button:hover {
       transform: scale(1.03);
     }
-    #mensajeEnvio {
+    #mensaje-espera {
       text-align: center;
-      color: #2e7d32;
       font-weight: bold;
-      margin-top: 20px;
+      color: #d17b00;
       display: none;
     }
   </style>
 </head>
 <body>
-  <h1 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-    <img src="polo logo.jpg" alt="Logo Polo" style="height: 40px;">
-    Pedido de Papelería
-  </h1>
-
+  <h1>Pedido de Papelería</h1>
   <form id="papeleriaForm" onsubmit="enviarFormulario(event)">
     <div class="campo">
       <label for="fecha">Fecha</label>
@@ -110,12 +105,14 @@
     </div>
 
     <h3>Artículos</h3>
-    <div id="articulos"></div>
+
+    <div id="articulos">
+      <!-- Artículos cargados automáticamente en JS -->
+    </div>
 
     <button type="submit">Enviar Pedido</button>
+    <p id="mensaje-espera">Aguarde la confirmación de pedido enviado...</p>
   </form>
-
-  <div id="mensajeEnvio">Aguarde la confirmación de pedido enviado</div>
 
   <script>
     document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
@@ -144,10 +141,8 @@
       contenedor.appendChild(div);
     });
 
-    async function enviarFormulario(event) {
+    function enviarFormulario(event) {
       event.preventDefault();
-
-      document.getElementById('mensajeEnvio').style.display = 'block';
 
       const form = document.getElementById('papeleriaForm');
       const fecha = document.getElementById('fecha').value;
@@ -163,46 +158,58 @@
         const observaciones = div.querySelector('input[type="text"]').value;
 
         if (cantidad || observaciones) {
-          pedidos.push({ fecha, empresa, sector, articulo, cantidad, observaciones });
+          pedidos.push({
+            fecha,
+            empresa,
+            sector,
+            articulo,
+            cantidad,
+            observaciones
+          });
         }
       });
 
       if (pedidos.length === 0) {
         alert("Debe completar al menos un artículo.");
-        document.getElementById('mensajeEnvio').style.display = 'none';
         return;
       }
 
-      const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+      // Mostrar mensaje de espera
+      document.getElementById('mensaje-espera').style.display = 'block';
 
-      try {
-        for (let i = 0; i < pedidos.length; i++) {
-          const pedido = pedidos[i];
-          const formData = new FormData();
-          formData.append('fecha', pedido.fecha);
-          formData.append('empresa', pedido.empresa);
-          formData.append('sector', pedido.sector);
-          formData.append('articulo', pedido.articulo);
-          formData.append('cantidad', pedido.cantidad);
-          formData.append('observaciones', pedido.observaciones);
-
-          await fetch('https://script.google.com/macros/s/AKfycbyedGgDC4hbwUSs3RaoVG-6vA0hOKtJGx5IePycMZE4x57liiPpIUfVL2Zww_mY0Kbprg/exec', {
-            method: 'POST',
-            body: formData
-          });
-
-          await delay(600); // Delay reducido para asegurar envío sin cortar comunicación
+      function enviarConDelay(index) {
+        if (index >= pedidos.length) {
+          alert('Pedido enviado correctamente.');
+          form.reset();
+          document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
+          document.getElementById('mensaje-espera').style.display = 'none';
+          return;
         }
 
-        alert('Pedido enviado correctamente.');
-        form.reset();
-        document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
-        document.getElementById('mensajeEnvio').style.display = 'none';
-      } catch (error) {
-        console.error('Error al enviar:', error);
-        alert('Error al enviar el pedido. Intente nuevamente.');
-        document.getElementById('mensajeEnvio').style.display = 'none';
+        const pedido = pedidos[index];
+        const formData = new FormData();
+        formData.append('fecha', pedido.fecha);
+        formData.append('empresa', pedido.empresa);
+        formData.append('sector', pedido.sector);
+        formData.append('articulo', pedido.articulo);
+        formData.append('cantidad', pedido.cantidad);
+        formData.append('observaciones', pedido.observaciones);
+
+        fetch('https://script.google.com/macros/s/AKfycbyedGgDC4hbwUSs3RaoVG-6vA0hOKtJGx5IePycMZE4x57liiPpIUfVL2Zww_mY0Kbprg/exec', {
+          method: 'POST',
+          body: formData
+        })
+        .then(() => {
+          setTimeout(() => enviarConDelay(index + 1), 600);
+        })
+        .catch(error => {
+          console.error('Error al enviar:', error);
+          alert('Error al enviar el pedido. Intente nuevamente.');
+          document.getElementById('mensaje-espera').style.display = 'none';
+        });
       }
+
+      enviarConDelay(0);
     }
   </script>
 </body>
