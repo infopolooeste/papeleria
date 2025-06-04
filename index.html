@@ -167,8 +167,15 @@
         return;
       }
 
-      // Enviar cada línea como POST individual
-      Promise.all(pedidos.map(pedido => {
+      function enviarConDelay(index) {
+        if (index >= pedidos.length) {
+          alert('Pedido enviado correctamente.');
+          form.reset();
+          document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
+          return;
+        }
+
+        const pedido = pedidos[index];
         const formData = new FormData();
         formData.append('fecha', pedido.fecha);
         formData.append('empresa', pedido.empresa);
@@ -177,20 +184,20 @@
         formData.append('cantidad', pedido.cantidad);
         formData.append('observaciones', pedido.observaciones);
 
-        return fetch('https://script.google.com/macros/s/AKfycbyedGgDC4hbwUSs3RaoVG-6vA0hOKtJGx5IePycMZE4x57liiPpIUfVL2Zww_mY0Kbprg/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbyedGgDC4hbwUSs3RaoVG-6vA0hOKtJGx5IePycMZE4x57liiPpIUfVL2Zww_mY0Kbprg/exec', {
           method: 'POST',
           body: formData
+        })
+        .then(() => {
+          setTimeout(() => enviarConDelay(index + 1), 500);
+        })
+        .catch(error => {
+          console.error('Error al enviar:', error);
+          alert('Error al enviar el pedido. Intente nuevamente.');
         });
-      }))
-      .then(() => {
-        alert('Pedido enviado correctamente.');
-        form.reset();
-        document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
-      })
-      .catch(error => {
-        console.error('Error al enviar:', error);
-        alert('Error al enviar el pedido. Intente nuevamente.');
-      });
+      }
+
+      enviarConDelay(0);
     }
   </script>
 </body>
